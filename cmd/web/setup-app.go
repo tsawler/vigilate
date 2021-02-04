@@ -34,7 +34,7 @@ func setupApp() (*string, error) {
 	pusherApp := flag.String("pusherApp", "9", "pusher app id")
 	pusherKey := flag.String("pusherKey", "", "pusher key")
 	pusherSecret := flag.String("pusherSecret", "", "pusher secret")
-	pusherSecure := flag.Bool("pusherSecure", false, "pusher server uses SSL")
+	pusherSecure := flag.Bool("pusherSecure", false, "pusher server uses SSL (true or false)")
 
 	flag.Parse()
 
@@ -90,14 +90,14 @@ func setupApp() (*string, error) {
 
 	// define application configuration
 	a := config.AppConfig{
-		DB:            db,
-		Session:       session,
-		InProduction:  *inProduction,
-		Domain:        *domain,
-		PusherSecret:  *pusherSecret,
-		MailQueue:     mailQueue,
-		Version:       vigilateVersion,
-		Identifier:    *identifier,
+		DB:           db,
+		Session:      session,
+		InProduction: *inProduction,
+		Domain:       *domain,
+		PusherSecret: *pusherSecret,
+		MailQueue:    mailQueue,
+		Version:      vigilateVersion,
+		Identifier:   *identifier,
 	}
 
 	app = a
@@ -152,4 +152,3 @@ func createDirIfNotExist(path string) error {
 	}
 	return nil
 }
-
