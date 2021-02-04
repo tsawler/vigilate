@@ -30,7 +30,7 @@ env GOOS=linux GOARCH=amd64 go build -o vigilate cmd/web/*.go
 Vigilate requires:
 - Postgres 11 or later (db is set up as a repository, so other databases are possible)
 - An account with [Pusher](https://pusher.com/), or a Pusher alternative 
-(like [ipe](https://github.com/dimiro1/ipe))
+(like [ipê](https://github.com/dimiro1/ipe))
 
 ## Run
 
