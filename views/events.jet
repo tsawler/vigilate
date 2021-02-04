@@ -1,0 +1,62 @@
+{{extends "./layouts/layout.jet"}}
+
+{{block css()}}
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+{{end}}
+
+
+{{block cardTitle()}}
+    Events
+{{end}}
+
+
+{{block cardContent()}}
+<div class="row">
+    <div class="col">
+        <ol class="breadcrumb mt-1">
+            <li class="breadcrumb-item"><a href="/admin/overview">Overview</a></li>
+            <li class="breadcrumb-item active">Events</li>
+        </ol>
+        <h4 class="mt-4">Events</h4>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+
+        <table class="table table-condensed table-striped" id="events-table">
+            <thead>
+            <tr>
+                <th>Event Type</th>
+                <th>Host</th>
+                <th>Service</th>
+                <th>Date/Time</th>
+                <th>Message</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{{end}}
+
+{{block js()}}
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        let t = document.getElementById("events-table");
+        window.dt = new simpleDatatables.DataTable(t, {
+            paging: true,
+            top: "{select}{search}",
+            bottom: "{info}{pager}",
+            columns: [
+                {select: 3, sort: "desc"},
+            ],
+        })
+    });
+</script>
+{{end}}

@@ -1,0 +1,34 @@
+{{extends "./layouts/layout.jet"}}
+
+{{block css()}}
+<style>
+
+</style>
+{{end}}
+
+
+{{block cardTitle()}}
+Host
+{{end}}
+
+
+{{block cardContent()}}
+{{prefMap := .PreferenceMap}}
+
+<div class="row">
+    <div class="col">
+        <ol class="breadcrumb mt-1">
+            <li class="breadcrumb-item"><a href="/admin/overview">Overview</a></li>
+            <li class="breadcrumb-item"><a href="/admin/host/all">Hosts</a></li>
+            <li class="breadcrumb-item active">Host</li>
+        </ol>
+        <h4 class="mt-4">Host</h4>
+        <hr>
+    </div>
+</div>
+{{end}}
+
+
+{{ block js() }}
+
+{{end}}

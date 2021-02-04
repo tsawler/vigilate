@@ -1,0 +1,523 @@
+{{extends "./layouts/layout.jet"}}
+
+{{block css()}}
+
+{{end}}
+
+
+{{block cardTitle()}}
+    Settings
+{{end}}
+
+
+{{block cardContent()}}
+    <div class="row">
+        <div class="col">
+            <ol class="breadcrumb mt-1">
+                <li class="breadcrumb-item"><a href="/admin/overview">Overview</a></li>
+                <li class="breadcrumb-item active">Settings</li>
+            </ol>
+            <h4 class="mt-4">Settings</h4>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+
+
+            <form method="post" id="settings-form" action="/admin/settings" novalidate class="needs-validation">
+                <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+                <input type="hidden" name="action" id="action" value="1">
+                <ul class="nav nav-tabs" id="setting-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#general-content" data-target="" data-toggle="tab"
+                           id="general-tab" role="tab">General</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#notify-content" data-target="" data-toggle="tab"
+                           id="notify-tab" role="tab">Notifications &amp; Scheduling</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#mail-content" data-target="" data-toggle="tab"
+                           id="mail-tab" role="tab">Mail Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#sms-content" data-target="" data-toggle="tab"
+                           id="sms-tab" role="tab">Text Message Settings</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="host-content" style="min-height: 55vh">
+
+                    <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="content-tab"
+                         id="general-content">
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12">
+
+                                <div class="mt-5">
+                                    <label for="site_url">URL of this application</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-link fa-fw"></i></span>
+                                        <input class="form-control required"
+                                               id="site_url"
+                                               required
+                                               autocomplete="off" type='text'
+                                               name='site_url'
+                                               value='{{.PreferenceMap["site_url"]}}'>
+                                        <div class="invalid-feedback">
+                                            Please enter a valid URL
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-md-6 col-xs-12">
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" role="tabpanel" aria-labelledby="notify-tab"
+                         id="notify-content">
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12">
+
+                                <div class="mt-5">
+                                    <h5>How do you want to be notified of problems/recovery?</h5>
+                                    <hr>
+
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="notify_via_email"
+                                               name="notify_via_email" value="1"
+                                               {{if .PreferenceMap["notify_via_email"] == "1"}}
+                                        checked
+                                        {{end}}>
+                                        <label class="form-check-label" for="notify_via_email">By Email</label>
+                                    </div>
+
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="notify_via_sms"
+                                               name="notify_via_sms" value="1"
+                                               {{if .PreferenceMap["notify_via_sms"] == "1"}}
+                                        checked
+                                        {{end}}>
+                                        <label class="form-check-label" for="notify_via_sms">By Text Message</label>
+                                    </div>
+
+
+                                </div>
+
+                                <h5 class="pt-4">Who gets notified of problems/recovery?</h5>
+                                <hr>
+                                <div class="mt-3">
+                                    <label for="notify_name">By Email: Recipient's Name</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-font fa-fw"></i></span>
+                                        <input class="form-control required"
+                                               id="notify_name"
+                                               required
+                                               autocomplete="off" type='text'
+                                               name='notify_name'
+                                               placeholder="First Last"
+                                               value='{{.PreferenceMap["notify_name"]}}'>
+                                        <div class="invalid-feedback">
+                                            Please enter a value
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3">
+                                    <label for="notify_email">By Email: Recipient's Email Address</label>
+                                    <div class="input-group">
+                                                <span class="input-group-text"><i
+                                                            class="fas fa-envelope fa-fw"></i></span>
+                                        <input class="form-control required"
+                                               id="notify_email"
+                                               required
+                                               autocomplete="off" type='text'
+                                               name='notify_email'
+                                               placeholder="name@example.com"
+                                               value='{{.PreferenceMap["notify_email"]}}'>
+                                        <div class="invalid-feedback">
+                                            Please enter a valid email address
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3">
+                                    <label for="sms_notify_number">By Text Message: number that receives
+                                        text</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-sms fa-fw"></i></span>
+                                        <input class="form-control"
+                                               id="sms_notify_number"
+                                               autocomplete="off" type='text'
+                                               name='sms_notify_number'
+                                               placeholder="+12125551212"
+                                               value='{{.PreferenceMap["sms_notify_number"]}}'>
+                                        <div class="invalid-feedback">
+                                            Please enter a value
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" role="tabpanel" aria-labelledby="mail-tab"
+                         id="mail-content">
+                        <div class="row">
+
+                            <div class="col-md-6 col-xs-12">
+
+                                <div class="mt-5">
+                                    <label for="smtp_server">SMTP Server</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-link fa-fw"></i></span>
+                                        <input class="form-control required"
+                                               id="smtp_server"
+                                               required
+                                               autocomplete="off" type='text'
+                                               name='smtp_server'
+                                               value='{{.PreferenceMap["smtp_server"]}}'>
+                                        <div class="invalid-feedback">
+                                            Please enter a valid mail server name e.g. mail.example.com
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3">
+                                    <label for="smtp_port">SMTP Port</label>
+                                    <div class="input-group">
+                                                <span class="input-group-text"><i
+                                                            class="fas fa-hashtag fa-fw"></i></span>
+                                        <input class="form-control required"
+                                               id="smtp_port"
+                                               required
+                                               autocomplete="off" type='text'
+                                               name='smtp_port'
+                                               value='{{.PreferenceMap["smtp_port"]}}'>
+                                        <div class="invalid-feedback">
+                                            Please enter a valid port number, e.g. 587
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3">
+                                    <label for="smtp_from_name">Mail sent from (name)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-user fa-fw"></i></span>
+                                        <input class="form-control"
+                                               id="smtp_from_name"
+                                               autocomplete="off" type='text' required
+                                               name='smtp_from_name'
+                                               value='{{.PreferenceMap["smtp_from_name"]}}'>
+                                        <div class="invalid-feedback">
+                                            Please enter a value
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3">
+                                    <label for="smtp_from_email">Mail sent from (email)</label>
+                                    <div class="input-group">
+                                                <span class="input-group-text"><i
+                                                            class="fas fa-envelope fa-fw"></i></span>
+                                        <input class="form-control"
+                                               id="smtp_from_email"
+                                               autocomplete="off" type='email' required
+                                               name='smtp_from_email'
+                                               value='{{.PreferenceMap["smtp_from_email"]}}'>
+                                        <div class="invalid-feedback">
+                                            Please enter a value
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-xs-12">
+
+                                <div class="mt-5">
+                                    <label for="smtp_user">SMTP Username</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-user fa-fw"></i></span>
+                                        <input class="form-control"
+                                               id="smtp_user"
+                                               autocomplete="off" type='text'
+                                               name='smtp_user'
+                                               value='{{.PreferenceMap["smtp_user"]}}'>
+                                        <div class="invalid-feedback">
+                                            Please enter a value
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3">
+                                    <label for="smtp_password">SMTP Password</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-lock fa-fw"></i></span>
+                                        <input class="form-control"
+                                               id="smtp_password"
+                                               autocomplete="off" type='password'
+                                               name='smtp_password'
+                                               value='{{.PreferenceMap["smtp_password"]}}'>
+                                        <div class="invalid-feedback">
+                                            Please enter a value
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="tab-pane fade" role="tabpanel" aria-labelledby="sms-tab"
+                         id="sms-content">
+
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12">
+
+                                <div class="mt-5">
+                                    <label for="sms_enabled">Enable Text Message Notifications</label>
+                                    <div class="input-group">
+                                            <span class="input-group-text"><i
+                                                        class="far fa-comment-dots fa-fw"></i></span>
+                                        <select name="sms_enabled" id="sms_enabled" class="form-select">
+                                            <option value="0" {{if .PreferenceMap[
+                                            "sms_enabled"] == "0"}} selected {{end}}>
+                                            No
+                                            </option>
+                                            <option value="1" {{if .PreferenceMap[
+                                            "sms_enabled"] == "1"}} selected {{end}}>
+                                            Yes
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3" id="sms-provider-group">
+                                    <label for="sms_provider">Text Message Provider</label>
+                                    <div class="input-group">
+                                                <span class="input-group-text"><i
+                                                            class="fas fa-question fa-fw"></i></span>
+                                        <select name="sms_provider" class="form-select" id="sms_provider">
+                                            <option>Choose...</option>
+                                            <option value="twilio" {{if .PreferenceMap[
+                                            "sms_provider"] == "twilio"}} selected {{end}}>
+                                            Twilio
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6 col-xs-12 twilio">
+
+                                <div class="mt-5 twilio">
+                                    <label for="twilio_phone_number">Twilio Phone Number</label>
+                                    <div class="input-group">
+                                                <span class="input-group-text"><i
+                                                            class="fas fa-hashtag fa-fw"></i></span>
+                                        <input class="form-control"
+                                               id="twilio_phone_number"
+                                               autocomplete="off" type='text'
+                                               name='twilio_phone_number'
+                                               value='{{.PreferenceMap["twilio_phone_number"]}}'>
+                                        <div class="invalid-feedback">
+                                            Please enter a valid phone number
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3">
+                                    <label for="sms_user">Twilio SID</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-user fa-fw"></i></span>
+                                        <input class="form-control"
+                                               id="twilio_sid"
+                                               autocomplete="off" type='text'
+                                               name='twilio_sid'
+                                               value='{{.PreferenceMap["twilio_sid"]}}'>
+                                        <div class="invalid-feedback">
+                                            Please enter a value
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3 twilio">
+                                    <label for="sms_password">Twilio Auth Token</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-lock fa-fw"></i></span>
+                                        <input class="form-control"
+                                               id="twilio_auth_token"
+                                               autocomplete="off" type='password'
+                                               name='twilio_auth_token'
+                                               value='{{.PreferenceMap["twilio_auth_token"]}}'>
+                                        <div class="invalid-feedback">
+                                            Please enter a value
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3">
+                                    <label for="sms_notify_number">Number to Notify of Problem/Recovery</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-sms fa-fw"></i></span>
+                                        <input class="form-control"
+                                               id="sms_notify_number"
+                                               autocomplete="off" type='text'
+                                               name='sms_notify_number'
+                                               value='{{.PreferenceMap["sms_notify_number"]}}'>
+                                        <div class="invalid-feedback">
+                                            Please enter a value
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <hr>
+                <div class="float-left">
+
+                    <div class="btn-group dropend">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                            Save
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="saveClose()">Save &amp;
+                                Close</a>
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="val()">Save &amp; Continue</a>
+                        </div>
+                    </div>
+
+                    <a class="btn btn-info" href="/admin/overview">Cancel</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+{{end}}
+
+{{block js()}}
+    <script>
+        let smsEnabled = document.getElementById("sms_enabled").value;
+        let smsProvider = document.getElementById("sms_provider").value;
+        let twilioElements = document.getElementsByClassName("twilio");
+        let providerChoice = document.getElementById("sms-provider-group");
+        let providerSelect = document.getElementById("sms_provider");
+        let enabledSelect = document.getElementById("sms_enabled");
+
+        document.addEventListener("DOMContentLoaded", function (event) {
+            window.scrollTo(0, 0);
+            smsEnabled = document.getElementById("sms_enabled").value;
+            if (smsEnabled === "0") {
+                hideTwilio();
+                providerChoice.classList.add("d-none");
+            } else {
+                providerChoice.classList.remove("d-none");
+                showTwilio();
+            }
+
+            enabledSelect.addEventListener("change", function (el) {
+                if (this.value === "0") {
+                    providerChoice.classList.add("d-none");
+                    hideTwilio();
+                } else {
+                    document.getElementById("sms-provider-group").classList.remove("d-none");
+                }
+            })
+
+            providerSelect.addEventListener("change", function () {
+                if (this.value === "twilio") {
+                    showTwilio();
+                } else {
+                    hideTwilio();
+                }
+            })
+
+            let tabMap = new Map();
+            let tabs = document.querySelectorAll('[data-toggle="tab"]');
+            let i = 0;
+            Array.prototype.filter.call(tabs, function (el) {
+                el.addEventListener("click", function () {
+                    history.pushState("", document.title, window.location.pathname);
+                    localStorage.setItem('activeTab', el.getAttribute("data-target"));
+                })
+                // add it to map
+                tabMap.set(el.getAttribute("href"), i);
+                i++;
+            });
+
+            // show last selected tab, if exists
+            if (!window.location.hash) {
+                let activeTab = localStorage.getItem('activeTab');
+                if (activeTab) {
+                    document.querySelectorAll('[data-toggle="tab"]')[activeTab].Tab.show()
+                }
+            } else {
+                // there is a hash in the url, so show appropriate tab
+                if (tabMap.has(window.location.hash)) {
+                    document.querySelectorAll('[data-toggle="tab"]')[tabMap.get(window.location.hash)].Tab.show()
+                }
+            }
+        })
+
+        function showTwilio() {
+            Array.prototype.filter.call(twilioElements, function (el) {
+                el.classList.remove("d-none");
+            })
+        }
+
+        function hideTwilio() {
+            Array.prototype.filter.call(twilioElements, function (el) {
+                el.classList.add("d-none");
+            })
+        }
+
+        function val() {
+            document.getElementById("action").value = 0;
+            let form = document.getElementById("settings-form");
+            if (form.checkValidity() === false) {
+                errorAlert("Error: check all tabs!");
+                this.event.preventDefault();
+                this.event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+
+            if (form.checkValidity() === true) {
+                form.submit();
+            }
+        }
+
+        function saveClose() {
+            document.getElementById("action").value = 1;
+            let form = document.getElementById("settings-form");
+            if (form.checkValidity() === false) {
+                errorAlert("Error: check all tabs!");
+                this.event.preventDefault();
+                this.event.stopPropagation();
+
+            }
+            form.classList.add('was-validated');
+
+            if (form.checkValidity() === true) {
+                form.submit();
+            }
+        }
+    </script>
+{{end}}

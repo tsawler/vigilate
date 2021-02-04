@@ -1,0 +1,56 @@
+{{extends "./layouts/layout.jet"}}
+
+{{block css()}}
+    <style>
+
+    </style>
+{{end}}
+
+
+{{block cardTitle()}}
+    Hosts
+{{end}}
+
+
+{{block cardContent()}}
+<div class="row">
+    <div class="col">
+        <ol class="breadcrumb mt-1">
+            <li class="breadcrumb-item"><a href="/admin/overview">Overview</a></li>
+            <li class="breadcrumb-item active">Hosts</li>
+        </ol>
+        <h4 class="mt-4">Hosts</h4>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+
+        <div class="float-right">
+            <a class="btn btn-outline-secondary" href="/admin/host/0#host">New Host</a>
+        </div>
+        <div class="clearfix"></div>
+
+        <table class="table table-condensed table-striped">
+            <thead>
+            <tr>
+                <th>Host</th>
+                <th>Services</th>
+                <th>OS</th>
+                <th>Location</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{{end}}
+
+{{block js()}}
+
+{{end}}

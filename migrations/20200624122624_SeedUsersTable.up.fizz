@@ -1,0 +1,5 @@
+sql(`INSERT INTO "public"."users"("first_name","last_name","user_active","access_level","email","password","google2fa_secret","use_tfa","deleted_at","avatar","created_at","updated_at")
+     VALUES
+     (E'Trevor',E'Sawler',1,3,E'trevor.sawler@gmail.com',E'$2a$12$AokiLj/RAtNBe8wIO8urwuGEnEU2HGrIXoCtVResYgDPrY.CxoJIy',E'',0,NULL,E'',E'2018-11-30 20:24:19',E'2020-01-18 12:00:21.985541');
+
+`);

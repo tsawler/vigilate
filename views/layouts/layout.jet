@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="shortcut icon" href="/static/admin/img/icons/icon-48x48.png"/>
+
+    <title>Vigilate</title>
+
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-bootstrap-4@3.1.4/bootstrap-4.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/notie/4.3.1/notie.min.css"
+          integrity="sha256-kafcFKMcjkeyTfjBox93yP5PkCQNvf4GzAlovJyTKCs=" crossorigin="anonymous"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"
+            crossorigin="anonymous"></script>
+    <link href="/static/admin/css/app.css" rel="stylesheet">
+    <style>
+        label {
+            font-weight: bold;
+            padding-bottom: 0.2em;
+        }
+    </style>
+    {{yield css()}}
+</head>
+
+<body>
+<div class="wrapper">
+    <nav id="sidebar" class="sidebar">
+        <div class="sidebar-content js-simplebar">
+            <a class="sidebar-brand text-center" href="/">
+                <span class="align-middle">
+                    <span class="fa fa-eye"></span> Vigilate
+                </span>
+            </a>
+
+            <ul class="sidebar-nav">
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="/admin/overview">
+                        <i class="align-middle" data-feather="compass"></i> <span class="align-middle">Overview</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="/admin/host/all">
+                        <i class="align-middle" data-feather="server"></i> <span class="align-middle">Hosts</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="/admin/events">
+                        <i class="align-middle" data-feather="check-circle"></i> <span
+                            class="align-middle">Events</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="/admin/schedule">
+                        <i class="align-middle" data-feather="calendar"></i> <span class="align-middle">Schedule</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="/admin/settings">
+                        <i class="align-middle" data-feather="settings"></i> <span class="align-middle">Settings</span>
+                    </a>
+                </li>
+
+                <li>
+                    <hr>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="/user/logout">
+                        <i class="align-middle" data-feather="log-out"></i> <span class="align-middle">Logout</span>
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+    </nav>
+
+    <div class="main">
+        <nav class="navbar navbar-expand navbar-light navbar-bg">
+            <a class="sidebar-toggle d-flex">
+                <i class="hamburger align-self-center"></i>
+            </a>
+
+            <div class="navbar-collapse collapse">
+                <form class="form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="monitoring-live">
+                        <label id="monitoring-live-label" class="form-check-label" for="monitoring-live">Monitoring</label>
+                    </div>
+                </form>
+            </div>
+        </nav>
+
+        <main class="content">
+            <div class="container-fluid p-0">
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+
+                            <div class="card-body">
+                                {{yield cardContent()}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row text-muted">
+                    <div class="col-6 text-left">
+                        <small class="text-muted">Version {{.PreferenceMap["version"]}}</small>
+                    </div>
+                    <div class="col-6 text-right">
+                        <p class="mb-0">
+                            <a href="index.html" class="text-muted"><strong><span class="fa fa-eye"></span> Vigilate</strong></a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap.native@3.0.0/dist/bootstrap-native.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/notie/4.3.1/notie.min.js"
+        integrity="sha256-ns3awRQUDUkb4hl21sd+GTFVidJLerhtrBrFMDk+Yvo=" crossorigin="anonymous"></script>
+
+<script src="/static/admin/js/app.js"></script>
+
+
+{{include "./../partials/js.jet"}}
+
+{{yield js()}}
+
+
+</body>
+
+</html>

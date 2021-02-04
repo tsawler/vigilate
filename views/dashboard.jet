@@ -1,0 +1,100 @@
+{{extends "./layouts/layout.jet"}}
+
+{{block css()}}
+<style>
+    .border-success, .border-warning, .border-danger, .border-secondary {
+        border: 1px solid;
+    }
+    .card-footer {
+        padding: 0.75rem 1.25rem;
+        background-color: rgba(0, 0, 0, 0.03);
+        border-top: 1px solid rgba(0, 0, 0, 0.125);
+    }
+</style>
+{{end}}
+
+
+{{block cardTitle()}}
+    Overview
+{{end}}
+
+
+{{block cardContent()}}
+<div class="row">
+    <div class="col">
+        <ol class="breadcrumb mt-1">
+            <li class="breadcrumb-item active">Overview</li>
+        </ol>
+        <h4 class="mt-4">Services</h4>
+        <hr>
+    </div>
+</div>
+<div class="row">
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-success mb-4" style="border: 1px solid red;">
+            <div class="card-body text-success">{{no_healthy}} Healthy service{{if no_healthy != 1}}s{{end}}</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-success stretched-link" href="/admin/all-healthy">View Details</a>
+                <div class="small text-success"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-warning mb-4">
+            <div class="card-body text-warning">{{no_warning}} Warning service{{if no_warning != 1}}s{{end}}</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-warning stretched-link" href="/admin/all-warning">View Details</a>
+                <div class="small text-warning"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-danger mb-4">
+            <div class="card-body text-danger">{{no_problem}} Problem service{{if no_problem != 1}}s{{end}}</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-danger stretched-link" href="/admin/all-problems">View Details</a>
+                <div class="small text-danger"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-secondary mb-4">
+            <div class="card-body text-dark">{{no_pending}} Pending service{{if no_pending != 1}}s{{end}}</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-dark stretched-link" href="/admin/all-pending">View Details</a>
+                <div class="small text-dark"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <h3>Hosts</h3>
+
+        <table class="table table-condensed table-striped">
+            <thead>
+            <tr>
+                <th>Host</th>
+                <th>Services</th>
+                <th>OS</th>
+                <th>Location</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{{end}}
+
+{{block js()}}
+
+{{end}}

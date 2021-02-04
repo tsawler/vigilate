@@ -1,0 +1,19 @@
+create_table("remember_tokens") {
+  t.Column("id", "integer", {primary: true})
+  t.Column("user_id", "integer", {"unsigned": true})
+  t.Column("remember_token", "string", {"size": 100})
+}
+
+sql("alter table remember_tokens alter column created_at set default now();")
+sql("alter table remember_tokens alter column updated_at set default now();")
+
+sql(`CREATE TRIGGER set_timestamp
+    BEFORE UPDATE ON remember_tokens
+    FOR EACH ROW
+EXECUTE PROCEDURE trigger_set_timestamp();`)
+
+
+add_foreign_key("remember_tokens", "user_id", {"users": ["id"]}, {
+    "on_delete": "set null",
+    "on_update": "cascade",
+})
