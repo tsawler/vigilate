@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/go-chi/chi"
-	"github.com/tsawler/vigilate/pkg/config"
-	"github.com/tsawler/vigilate/pkg/handlers"
+	"github.com/tsawler/vigilate/internal/config"
+	"github.com/tsawler/vigilate/internal/handlers"
 	"net/http"
 	//"github.com/go-chi/chi/middleware"
 )

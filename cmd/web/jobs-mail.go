@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/aymerick/douceur/inliner"
-	"github.com/tsawler/vigilate/pkg/channeldata"
+	"github.com/tsawler/vigilate/internal/channeldata"
 	mail "github.com/xhit/go-simple-mail/v2"
 	"html/template"
 	"jaytaylor.com/html2text"

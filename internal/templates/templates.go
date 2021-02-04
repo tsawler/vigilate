@@ -2,8 +2,8 @@ package templates
 
 import (
 	"fmt"
-	"github.com/tsawler/vigilate/pkg/config"
-	"github.com/tsawler/vigilate/pkg/forms"
+	"github.com/tsawler/vigilate/internal/config"
+	"github.com/tsawler/vigilate/internal/forms"
 	"html/template"
 	"path/filepath"
 	"strconv"

@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"github.com/tsawler/vigilate/pkg/config"
-	"github.com/tsawler/vigilate/pkg/helpers"
+	"github.com/tsawler/vigilate/internal/config"
+	"github.com/tsawler/vigilate/internal/helpers"
 	"net/http"
 )
 

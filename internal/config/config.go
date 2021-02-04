@@ -4,8 +4,8 @@ import (
 	"github.com/alexedwards/scs/v2"
 	"github.com/pusher/pusher-http-go"
 	"github.com/robfig/cron/v3"
-	"github.com/tsawler/vigilate/pkg/channeldata"
-	"github.com/tsawler/vigilate/pkg/driver"
+	"github.com/tsawler/vigilate/internal/channeldata"
+	"github.com/tsawler/vigilate/internal/driver"
 	"html/template"
 )
 
