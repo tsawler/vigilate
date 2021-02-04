@@ -78,7 +78,7 @@ Usage of ./vigilate:
   -pusherSecret string
         pusher secret
    -pusherSecure
-        pusher server uses SSL
+        pusher server uses SSL (true or false)
 ~~~~
 
 
