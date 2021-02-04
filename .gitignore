@@ -4,3 +4,4 @@ schema.sql
 run.sh
 run.bat
 vigilante
+.DS_Store
