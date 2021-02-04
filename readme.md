@@ -13,6 +13,12 @@ Build in the normal way:
 go build -o vigilate cmd/web/*.go
 ~~~
 
+Or on Windows:
+
+~~~
+go build -o vigilate.exe cmd/web/.
+~~~
+
 Or for a particular platform:
 
 ~~~
