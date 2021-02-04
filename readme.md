@@ -77,6 +77,8 @@ Usage of ./vigilate:
         pusher port (default "443")
   -pusherSecret string
         pusher secret
+   -pusherSecure
+        pusher server uses SSL
 ~~~~
 
 
