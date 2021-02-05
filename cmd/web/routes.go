@@ -24,7 +24,14 @@ func routes(app config.AppConfig) http.Handler {
 
 	mux.Get("/user/logout", handlers.Repo.Logout(app))
 
-	// protected routes
+	// pusher routes - excluded from csrf protection (nosurf)
+	mux.Route("/pusher", func(mux chi.Router) {
+		// pusher route requires authentication
+		mux.Use(Auth)
+		mux.Post("/auth", handlers.Repo.PusherAuth(app))
+	})
+
+	// admin routes
 	mux.Route("/admin", func(mux chi.Router) {
 		// all admin routes are protected
 		mux.Use(Auth)

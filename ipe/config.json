@@ -1,6 +1,7 @@
 {
   "Host": ":4001",
   "SSL": false,
+  "Profiling": true,
   "Apps": [
     {
       "ApplicationDisabled": false,
