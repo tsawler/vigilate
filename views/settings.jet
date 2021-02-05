@@ -36,15 +36,15 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#notify-content" data-target="" data-toggle="tab"
-                           id="notify-tab" role="tab">Notifications &amp; Scheduling</a>
+                           id="notify-tab" role="tab">Notifications</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#mail-content" data-target="" data-toggle="tab"
-                           id="mail-tab" role="tab">Mail Settings</a>
+                           id="mail-tab" role="tab"><i class="fas fa-envelope"></i> Settings</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#sms-content" data-target="" data-toggle="tab"
-                           id="sms-tab" role="tab">Text Message Settings</a>
+                           id="sms-tab" role="tab"><i class="fas fa-sms"></i> Settings</a>
                     </li>
                 </ul>
 
