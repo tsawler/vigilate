@@ -19,7 +19,7 @@ import (
 
 func setupApp() (*string, error) {
 	// read flags
-	insecurePort := flag.String("port", ":4001", "port to listen on")
+	insecurePort := flag.String("port", ":4000", "port to listen on")
 	identifier := flag.String("identifier", "vigilate", "unique identifier")
 	domain := flag.String("domain", "localhost", "domain name (e.g. example.com)")
 	inProduction := flag.Bool("production", false, "application is in production")
