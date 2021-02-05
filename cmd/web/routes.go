@@ -52,6 +52,7 @@ func routes(app config.AppConfig) http.Handler {
 		mux.Get("/all-problems", handlers.Repo.AllProblemServices(app))
 		mux.Get("/all-pending", handlers.Repo.AllPendingServices(app))
 
+		// schedule
 		mux.Get("/schedule", handlers.Repo.ListEntries(app))
 
 		// hosts
