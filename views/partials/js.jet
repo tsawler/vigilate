@@ -12,7 +12,6 @@
 
     let privateChannel = pusher.subscribe("private-channel");
 
-
     // notifications
     let attention = Prompt();
 
