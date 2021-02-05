@@ -64,7 +64,7 @@ Usage of ./vigilate:
   -identifier string
         unique identifier (default "vigilate")
   -port string
-        port to listen on (default ":4000")
+        port to listen on (default ":4001")
   -production
         application is in production
   -pusherApp string
