@@ -81,15 +81,3 @@ Usage of ./vigilate:
         pusher server uses SSL (true or false)
 ~~~~
 
-
-## Sample supervisor script
-
-~~~
-[program:vigilate]
-command=/var/www/sites/vigilate/vigilate -port=':4000' -domain='example.com' -production=true -dbuser='postgres' -pusherHost='some.pusher.host.com' -pusherSecret='somescret' -pusherKey='somekey'
-directory=/var/www/sites/vigilate
-autostart=true
-autorestart=true
-
-stdout_logfile=/var/www/sites/vigilate/logs/vigilate.log
-~~~
