@@ -6,8 +6,6 @@
         wsHost: "localhost",
         wsPort: 4001,
         forceTLS: false,
-        // encrypted: false,
-        appId: "My App",
         enabledTransports: ["ws", "wss"],
         disabledTransports: []
     });
