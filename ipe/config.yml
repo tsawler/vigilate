@@ -1,0 +1,16 @@
+---
+host: ":4001"
+profiling: false
+ssl:
+  enabled: false
+apps:
+  - name: "My App"
+    enabled: true
+    only_ssl: false
+    key: "abc123"
+    secret: "123abc"
+    app_id: "1"
+    user_events: true
+    webhooks:
+      enabled: false
+      url: ""
