@@ -7,7 +7,7 @@ A dead simple monitoring service, intended to replace things like Nagios.
 
 ## Build
 
-Build in the normal way:
+Build in the normal way on Mac/Linux:
 
 ~~~
 go build -o vigilate cmd/web/*.go
