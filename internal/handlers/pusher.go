@@ -25,6 +25,7 @@ func (repo *DBRepo) PusherAuth(app config.AppConfig) http.HandlerFunc {
 				UserID: strconv.Itoa(userID),
 				UserInfo: map[string]string{
 					"name": firstName,
+					"id":   strconv.Itoa(userID),
 				},
 			}
 
