@@ -3,14 +3,17 @@ host: ":4001"
 profiling: false
 ssl:
   enabled: false
+  host: ":4343"
+  key_file: "key.pem"
+  cert_file: "cert.pem"
 apps:
-  - name: "My App"
+  - name: "App"
     enabled: true
     only_ssl: false
-    key: "abc123"
-    secret: "123abc"
+    key: "123abc"
+    secret: "abc123"
     app_id: "1"
     user_events: true
     webhooks:
       enabled: false
-      url: ""
+      url: "http://127.0.0.1:5000/hook"

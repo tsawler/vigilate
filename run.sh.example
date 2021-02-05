@@ -6,6 +6,6 @@
 go build -o vigilate cmd/web/*.go && ./vigilate \
 -dbuser='someuser' \
 -pusherHost='pusher.com' \
--pusherSecret='somesecret' \
 -pusherKey='somekey' \
+-pusherSecret='somesecret' \
 -pusherApp="1"
