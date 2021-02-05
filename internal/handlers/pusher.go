@@ -16,8 +16,7 @@ func (repo *DBRepo) PusherAuth(app config.AppConfig) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if !helpers.IsAuthenticated(r) {
 			w.WriteHeader(http.StatusForbidden)
-			//_, _ = w.Write([]byte("403 HTTP status code returned!"))
-			_, _ = fmt.Fprint(w, "403 HTTP status code returned!")
+			_, _ = fmt.Fprint(w, "403 Access denied")
 		} else {
 			firstName := app.Session.GetString(r.Context(), "userName")
 			userID := app.Session.GetInt(r.Context(), "userID")
