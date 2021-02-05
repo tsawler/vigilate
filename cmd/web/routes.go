@@ -5,7 +5,6 @@ import (
 	"github.com/tsawler/vigilate/internal/config"
 	"github.com/tsawler/vigilate/internal/handlers"
 	"net/http"
-	//"github.com/go-chi/chi/middleware"
 )
 
 func routes(app config.AppConfig) http.Handler {
