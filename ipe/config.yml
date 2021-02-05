@@ -1,0 +1,17 @@
+{
+  "Host": ":4001",
+  "SSL": false,
+  "Apps": [
+    {
+      "ApplicationDisabled": false,
+      "Secret": "abc123",
+      "Key": "123abc",
+      "OnlySSL": false,
+      "Name": "My App",
+      "AppID": "1",
+      "UserEvents": true,
+      "WebHooks": false,
+      "URLWebHook": ""
+    }
+  ]
+}
