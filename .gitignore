@@ -3,5 +3,5 @@ database.yml
 schema.sql
 run.sh
 run.bat
-vigilante
+vigilate
 .DS_Store
