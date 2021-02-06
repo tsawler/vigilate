@@ -1,11 +1,8 @@
 package templates
 
 import (
-	"fmt"
-	"github.com/tsawler/vigilate/internal/config"
 	"github.com/tsawler/vigilate/internal/forms"
 	"html/template"
-	"path/filepath"
 	"strconv"
 	"time"
 )
@@ -32,118 +29,6 @@ type TemplateData struct {
 	Flash           string
 	Error           string
 	GwVersion       string
-}
-
-// NewTemplateCache creates the template cache
-func NewTemplateCache(app *config.AppConfig) (map[string]*template.Template, error) {
-	templatePath = "./ui/html"
-	mailTemplatePath := "./ui/mail"
-	myCache := map[string]*template.Template{}
-
-	// pages
-	pages, err := filepath.Glob(fmt.Sprintf("%s/*.page.tmpl", templatePath))
-	if err != nil {
-		return nil, err
-	}
-
-	// Loop through the pages one-by-one.
-	for _, page := range pages {
-		name := filepath.Base(page)
-		ts, err := template.New(name).Funcs(functions).ParseFiles(page)
-		if err != nil {
-			fmt.Println(err)
-			return nil, err
-		}
-
-		matches, err := filepath.Glob(fmt.Sprintf("%s/*.layout.tmpl", templatePath))
-		if err != nil {
-			fmt.Println(err)
-			return nil, err
-		}
-		if len(matches) > 0 {
-			ts, err = ts.ParseGlob(fmt.Sprintf("%s/*.layout.tmpl", templatePath))
-			if err != nil {
-				fmt.Println(err)
-				return nil, err
-			}
-		}
-
-		matches, err = filepath.Glob(fmt.Sprintf("%s/*.partial.tmpl", templatePath))
-		if err != nil {
-			fmt.Println(err)
-			return nil, err
-		}
-		if len(matches) > 0 {
-			ts, err = ts.ParseGlob(fmt.Sprintf("%s/*.partial.tmpl", templatePath))
-			if err != nil {
-				return nil, err
-			}
-		}
-
-		matches, err = filepath.Glob(fmt.Sprintf("%s/partials/*.partial.tmpl", templatePath))
-		if err != nil {
-			return nil, err
-		}
-		if len(matches) > 0 {
-			ts, err = ts.ParseGlob(fmt.Sprintf("%s/partials/*.partial.tmpl", templatePath))
-			if err != nil {
-				return nil, err
-			}
-		}
-
-		// Add the template set to the cache,
-		myCache[name] = ts
-
-		//myCache["top-bar"] = ts
-
-		// now do mail templates
-		mails, err := filepath.Glob(fmt.Sprintf("%s/*.mail.tmpl", mailTemplatePath))
-		if err != nil {
-			fmt.Println(err)
-			return nil, err
-		}
-
-		for _, page := range mails {
-			name := filepath.Base(page)
-
-			ts, err := template.New(name).Funcs(functions).ParseFiles(page)
-			if err != nil {
-				fmt.Println(err)
-				return nil, err
-			}
-
-			matches, err := filepath.Glob(fmt.Sprintf("%s/*.layout.tmpl", mailTemplatePath))
-			if err != nil {
-				fmt.Println(err)
-				return nil, err
-			}
-			if len(matches) > 0 {
-				ts, err = ts.ParseGlob(fmt.Sprintf("%s/*.layout.tmpl", mailTemplatePath))
-				if err != nil {
-					return nil, err
-				}
-			}
-
-			matches, err = filepath.Glob(fmt.Sprintf("%s/*.partial.tmpl", mailTemplatePath))
-			if err != nil {
-				fmt.Println(err)
-				return nil, err
-			}
-			if len(matches) > 0 {
-				ts, err = ts.ParseGlob(fmt.Sprintf("%s/*.partial.tmpl", mailTemplatePath))
-				if err != nil {
-					fmt.Println(err)
-					return nil, err
-				}
-			}
-
-			// Add the template set to the cache,
-			myCache[name] = ts
-
-		}
-	}
-	app.TemplateCache = myCache
-	return myCache, nil
 }
 
 // FormatDateWithLayout formats a date/time with specified layout string
