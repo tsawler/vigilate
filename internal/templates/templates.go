@@ -6,10 +6,6 @@ import (
 
 // TemplateData defines template data
 type TemplateData struct {
-	IntMap          map[string]int
-	StringMap       map[string]string
-	FloatMap        map[string]float32
-	RowSets         map[string]interface{}
 	CSRFToken       string
 	Form            *forms.Form
 	IsAuthenticated bool
