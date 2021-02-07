@@ -34,14 +34,31 @@ Vigilate requires:
 
 ## Run
 
+First, make sure ipê is running (if you're using ipê):
+
+On Mac/Linux
+~~~
+cd ipe
+./ipe 
+~~~
+
+On Windows
+~~~
+cd ipe
+ipe.exe
+~~~
+
 Run with flags:
 
 ~~~
 ./vigilate \
 -dbuser='tcs' \
--pusherHost='some.host.com' \
--pusherSecret='somesecret' \
--pusherKey='somekey' 
+-pusherHost='localhost' \
+-pusherPort='4001' \
+-pusherKey='123abc' \
+-pusherSecret='abc123' \
+-pusherApp="1" \
+-pusherSecure=false
 ~~~~
 
 ## All Flags
