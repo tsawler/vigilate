@@ -35,6 +35,7 @@ func (repo *DBRepo) PusherAuth(app config.AppConfig) http.HandlerFunc {
 	}
 }
 
+// TestPush test the push functionality
 func (repo *DBRepo) TestPush(app config.AppConfig) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		msg := r.URL.Query().Get("msg")
