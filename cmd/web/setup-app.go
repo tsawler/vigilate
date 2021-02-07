@@ -133,6 +133,9 @@ func setupApp() (*string, error) {
 		Host:   fmt.Sprintf("%s:%s", *pusherHost, *pusherPort),
 	}
 
+	log.Println("Host", fmt.Sprintf("%s:%s", *pusherHost, *pusherPort))
+	log.Println("Secure", *pusherSecure)
+
 	app.WsClient = wsClient
 
 	helpers.NewHelpers(&app)
