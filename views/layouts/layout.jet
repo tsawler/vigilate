@@ -13,7 +13,8 @@
     <!-- required css -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bootstrap-4@3.1.4/bootstrap-4.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notie@4.3.1/dist/notie.min.css">
-    <script src="https://cdn.jsdelivr.net/combine/npm/notie@4.3.1,npm/@fortawesome/fontawesome-free@5.15.2/js/all.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
+          integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous"/>
     <link href="/static/admin/css/app.css" rel="stylesheet">
 
     <!-- override styles in adminkit.io's template -->
@@ -129,7 +130,7 @@
                         <p class="mb-0">
                             <a href="index.html" class="text-muted"><strong><span class="fa fa-eye"></span> Vigilate</strong></a>
                         </p>
-                    </div>
+                    </div>p
                 </div>
             </div>
         </footer>
