@@ -116,7 +116,7 @@ func (m *postgresDBRepo) Authenticate(email, testPassword string) (int, string, 
 	return id, hashedPassword, nil
 }
 
-// Insert inserts a token into remember_tokens for a user
+// InsertRememberMeToken inserts a remember me token into remember_tokens for a user
 func (m *postgresDBRepo) InsertRememberMeToken(id int, token string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
@@ -227,6 +227,7 @@ func (m *postgresDBRepo) UpdateUser(u models.User) error {
 	return nil
 }
 
+// DeleteUser sets a user to deleted by populating deleted_at value
 func (m *postgresDBRepo) DeleteUser(id int) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
