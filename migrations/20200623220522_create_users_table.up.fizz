@@ -6,10 +6,7 @@ create_table("users") {
   t.Column("access_level", "integer", {"default": 3})
   t.Column("email", "string", {})
   t.Column("password", "string", {"size": 60})
-  t.Column("google2fa_secret", "text", {"default": ""})
-  t.Column("use_tfa", "integer", {"default": 0})
   t.Column("deleted_at", "timestamp", {"null": true})
-  t.Column("avatar", "string", {"size": 255, "default": ""})
 }
 
 sql("alter table users alter column created_at set default now();")

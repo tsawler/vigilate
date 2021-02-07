@@ -6,6 +6,7 @@ import (
 	"github.com/justinas/nosurf"
 	"github.com/tsawler/vigilate/internal/config"
 	"github.com/tsawler/vigilate/internal/forms"
+	"github.com/tsawler/vigilate/internal/models"
 	"github.com/tsawler/vigilate/internal/templates"
 	"log"
 	"math/rand"
@@ -77,6 +78,12 @@ func DefaultData(td templates.TemplateData, r *http.Request, w http.ResponseWrit
 	td.CSRFToken = nosurf.Token(r)
 	td.IsAuthenticated = IsAuthenticated(r)
 	td.PreferenceMap = app.PreferenceMap
+	// if logged in, store user id in template data
+	if td.IsAuthenticated {
+		u := app.Session.Get(r.Context(), "user").(models.User)
+		td.User = u
+	}
+
 	return td
 }
 

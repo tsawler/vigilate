@@ -18,20 +18,17 @@ var (
 
 // User model
 type User struct {
-	ID              int
-	FirstName       string
-	LastName        string
-	UserActive      int
-	AccessLevel     int
-	Email           string
-	Password        []byte
-	CreatedAt       time.Time
-	UpdatedAt       time.Time
-	Google2faSecret string
-	UseTfa          int
-	DeletedAt       time.Time
-	Avatar          string
-	Preferences     map[string]string
+	ID          int
+	FirstName   string
+	LastName    string
+	UserActive  int
+	AccessLevel int
+	Email       string
+	Password    []byte
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+	DeletedAt   time.Time
+	Preferences map[string]string
 }
 
 // Preference model

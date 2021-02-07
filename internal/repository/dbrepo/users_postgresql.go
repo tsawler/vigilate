@@ -48,7 +48,7 @@ func (m *postgresDBRepo) GetUserById(id int) (models.User, error) {
 	defer cancel()
 
 	stmt := `SELECT id, first_name, last_name,  user_active, access_level, email, 
-			created_at, updated_at, use_tfa, avatar
+			created_at, updated_at
 			FROM users where id = $1`
 	row := m.DB.QueryRowContext(ctx, stmt, id)
 
@@ -63,8 +63,6 @@ func (m *postgresDBRepo) GetUserById(id int) (models.User, error) {
 		&u.Email,
 		&u.CreatedAt,
 		&u.UpdatedAt,
-		&u.UseTfa,
-		&u.Avatar,
 	)
 
 	if err != nil {
@@ -83,7 +81,17 @@ func (m *postgresDBRepo) Authenticate(email, testPassword string) (int, string, 
 	var id int
 	var hashedPassword string
 	var userActive int
-	row := m.DB.QueryRowContext(ctx, "SELECT id, password, user_active FROM users WHERE email = $1", email)
+
+	query := `
+		select 
+		    id, password, user_active 
+		from 
+			users 
+		where 
+			email = $1
+			and deleted_at is null`
+
+	row := m.DB.QueryRowContext(ctx, query, email)
 	err := row.Scan(&id, &hashedPassword, &userActive)
 	if err == sql.ErrNoRows {
 		return 0, "", models.ErrInvalidCredentials
@@ -144,4 +152,121 @@ func (m *postgresDBRepo) CheckForToken(id int, token string) bool {
 	row := m.DB.QueryRowContext(ctx, stmt, id, token)
 	err := row.Scan(&id)
 	return err == nil
+}
+
+// Insert method to add a new record to the users table.
+func (m *postgresDBRepo) InsertUser(u models.User) (int, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	// Create a bcrypt hash of the plain-text password.
+	hashedPassword, err := bcrypt.GenerateFromPassword(u.Password, 12)
+	if err != nil {
+		return 0, err
+	}
+
+	stmt := `
+	INSERT INTO users 
+	    (
+		first_name, 
+		last_name, 
+		email, 
+		password, 
+		access_level,
+		user_active,
+		)
+    VALUES($1, $2, $3, $4, $5, $6) returning id `
+
+	var newId int
+	err = m.DB.QueryRowContext(ctx, stmt,
+		u.FirstName,
+		u.LastName,
+		u.Email,
+		hashedPassword,
+		u.AccessLevel,
+		&u.UserActive).Scan(&newId)
+	if err != nil {
+		return 0, err
+	}
+
+	return newId, err
+}
+
+// UpdateUser updates a user by id
+func (m *postgresDBRepo) UpdateUser(u models.User) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	stmt := `
+		update 
+			users 
+		set 
+			first_name = $1, 
+			last_name = $2, 
+			user_active = $3, 
+			email = $4, 
+			access_level = $5,
+			updated_at = $6
+		where
+			id = $7`
+
+	_, err := m.DB.ExecContext(ctx, stmt,
+		u.FirstName,
+		u.LastName,
+		u.UserActive,
+		u.Email,
+		u.AccessLevel,
+		u.UpdatedAt,
+		u.ID,
+	)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	return nil
+}
+
+func (m *postgresDBRepo) DeleteUser(id int) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	stmt := `update users set deleted_at = $1, user_active = 0  where id = $2`
+
+	_, err := m.DB.ExecContext(ctx, stmt, time.Now(), id)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	return nil
+}
+
+// UpdatePassword resets a password
+func (m *postgresDBRepo) UpdatePassword(id int, newPassword string) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	// Create a bcrypt hash of the plain-text password.
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(newPassword), 12)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	stmt := `update users set password = $1 where id = $2`
+	_, err = m.DB.ExecContext(ctx, stmt, hashedPassword, id)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	// delete all remember tokens, if any
+	stmt = "delete from remember_tokens where user_id = $1"
+	_, err = m.DB.ExecContext(ctx, stmt, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

@@ -16,7 +16,7 @@
         successAlert(data.message);
     });
 
-    let privateChannel = pusher.subscribe("private-channel");
+    let privateChannel = pusher.subscribe("private-channel-{{.User.ID}}");
 
     // notifications
     let attention = Prompt();

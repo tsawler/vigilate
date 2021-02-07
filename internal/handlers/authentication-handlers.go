@@ -124,9 +124,6 @@ func (repo *DBRepo) Login(app config.AppConfig) http.HandlerFunc {
 			http.Redirect(w, r, r.Form.Get("target"), http.StatusSeeOther)
 			return
 		}
-		//http.Redirect(w, r, "/", http.StatusSeeOther)
-
-		app.Session.Put(r.Context(), "userID", 1)
 
 		http.Redirect(w, r, "/admin/overview", http.StatusSeeOther)
 	}

@@ -11,6 +11,10 @@ type DatabaseRepo interface {
 
 	// users and authentication
 	GetUserById(id int) (models.User, error)
+	InsertUser(u models.User) (int, error)
+	UpdateUser(u models.User) error
+	DeleteUser(id int) error
+	UpdatePassword(id int, newPassword string) error
 	Authenticate(email, testPassword string) (int, string, error)
 	AllUsers() ([]*models.User, error)
 	InsertRememberMeToken(id int, token string) error

@@ -2,6 +2,7 @@ package templates
 
 import (
 	"github.com/tsawler/vigilate/internal/forms"
+	"github.com/tsawler/vigilate/internal/models"
 )
 
 // TemplateData defines template data
@@ -10,7 +11,7 @@ type TemplateData struct {
 	Form            *forms.Form
 	IsAuthenticated bool
 	PreferenceMap   map[string]string
-	UserID          int
+	User            models.User
 	Flash           string
 	Error           string
 	GwVersion       string
