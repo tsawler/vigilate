@@ -18,10 +18,10 @@ func routes(app config.AppConfig) http.Handler {
 	mux.Use(CheckRemember)
 
 	// login
-	mux.Get("/", handlers.Repo.LoginScreen(app))
-	mux.Post("/", handlers.Repo.Login(app))
+	mux.Get("/", handlers.Repo.LoginScreen)
+	mux.Post("/", handlers.Repo.Login)
 
-	mux.Get("/user/logout", handlers.Repo.Logout(app))
+	mux.Get("/user/logout", handlers.Repo.Logout)
 
 	// admin routes
 	mux.Route("/admin", func(mux chi.Router) {
@@ -29,43 +29,38 @@ func routes(app config.AppConfig) http.Handler {
 		mux.Use(Auth)
 
 		// overview
-		mux.Get("/overview", handlers.Repo.AdminDashboard(app))
+		mux.Get("/overview", handlers.Repo.AdminDashboard)
 
 		// events
-		mux.Get("/events", handlers.Repo.Events(app))
+		mux.Get("/events", handlers.Repo.Events)
 
 		// settings
-		mux.Get("/settings", handlers.Repo.Settings(app))
-		mux.Post("/settings", handlers.Repo.PostSettings(app))
+		mux.Get("/settings", handlers.Repo.Settings)
+		mux.Post("/settings", handlers.Repo.PostSettings)
 
 		// service status pages (all hosts)
-		mux.Get("/all-healthy", handlers.Repo.AllHealthyServices(app))
-		mux.Get("/all-warning", handlers.Repo.AllWarningServices(app))
-		mux.Get("/all-problems", handlers.Repo.AllProblemServices(app))
-		mux.Get("/all-pending", handlers.Repo.AllPendingServices(app))
+		mux.Get("/all-healthy", handlers.Repo.AllHealthyServices)
+		mux.Get("/all-warning", handlers.Repo.AllWarningServices)
+		mux.Get("/all-problems", handlers.Repo.AllProblemServices)
+		mux.Get("/all-pending", handlers.Repo.AllPendingServices)
 
 		// users
-		mux.Get("/users", handlers.Repo.AllUsers(app))
-		mux.Get("/user/{id}", handlers.Repo.OneUser(app))
-		mux.Post("/user/{id}", handlers.Repo.PostOneUser(app))
+		mux.Get("/users", handlers.Repo.AllUsers)
+		mux.Get("/user/{id}", handlers.Repo.OneUser)
+		mux.Post("/user/{id}", handlers.Repo.PostOneUser)
 		mux.Get("/user/delete/{id}", handlers.Repo.DeleteUser)
 
 		// schedule
-		mux.Get("/schedule", handlers.Repo.ListEntries(app))
+		mux.Get("/schedule", handlers.Repo.ListEntries)
 
 		// hosts
-		mux.Get("/host/all", handlers.Repo.AllHosts(app))
-		mux.Get("/host/{id}", handlers.Repo.Host(app))
-
-		mux.Handle("/*", handlers.Repo.Show404(app))
+		mux.Get("/host/all", handlers.Repo.AllHosts)
+		mux.Get("/host/{id}", handlers.Repo.Host)
 	})
 
 	// static files
 	fileServer := http.FileServer(http.Dir("./static/"))
 	mux.Handle("/static/*", http.StripPrefix("/static", fileServer))
-
-	// everything else is 404
-	mux.Handle("/*", handlers.Repo.Show404(app))
 
 	return mux
 }
