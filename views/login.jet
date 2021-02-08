@@ -8,6 +8,7 @@
     <title>goWatcher</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notie@4.3.1/dist/notie.min.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
           integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous"/>
@@ -64,6 +65,18 @@
         .sign-in-title {
             font-weight: 600;
         }
+
+        .notie-container {
+            z-index: 100250;
+            opacity: 0.85;
+            box-shadow: none;
+            height: 50px;
+        }
+
+        .notie-textbox-inner {
+            line-height: 10pt;
+            font-size: 14pt;
+        }
     </style>
 </head>
 <body>
@@ -110,7 +123,6 @@
                     </div>
 
 
-
                     <div class="clearfix remember">
 
                         <div class="form-check form-switch">
@@ -133,7 +145,24 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/notie@4.3.1/dist/notie.min.js"></script>
+<script src="/static/admin/js/attention.js"></script>
 <script>
+    let attention = Prompt();
+
+    {{if .Flash != ""}}
+    successAlert('{{.Flash}}')
+    {{end}}
+
+    {{if .Warning != ""}}
+    warningAlert('{{.Warning}}')
+    {{end}}
+
+    {{if .Error != ""}}
+    errorAlert('{{.Error}}')
+    {{end}}
+
+
     (function () {
         'use strict';
         window.addEventListener('load', function () {

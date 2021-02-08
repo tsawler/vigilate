@@ -13,6 +13,7 @@ type TemplateData struct {
 	PreferenceMap   map[string]string
 	User            models.User
 	Flash           string
+	Warning         string
 	Error           string
 	GwVersion       string
 }

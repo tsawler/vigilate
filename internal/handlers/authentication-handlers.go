@@ -54,16 +54,14 @@ func (repo *DBRepo) Login(app config.AppConfig) http.HandlerFunc {
 
 		id, hash, err := repo.DB.Authenticate(form.Get("email"), form.Get("password"))
 		if err == models.ErrInvalidCredentials {
-			log.Println("invalid  credentials")
-			form.Errors.Add("generic", "Email or Password is incorrect")
+			app.Session.Put(r.Context(), "error", "Invalid login")
 			err := helpers.RenderPage(w, r, "login", nil, nil)
 			if err != nil {
 				printTemplateError(w, err)
 			}
 			return
 		} else if err == models.ErrInactiveAccount {
-			log.Println("inactive account")
-			form.Errors.Add("generic", "Your account is not active!")
+			app.Session.Put(r.Context(), "error", "Inactive account!")
 			err := helpers.RenderPage(w, r, "login", nil, nil)
 			if err != nil {
 				printTemplateError(w, err)

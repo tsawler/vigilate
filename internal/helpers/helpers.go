@@ -84,6 +84,10 @@ func DefaultData(td templates.TemplateData, r *http.Request, w http.ResponseWrit
 		td.User = u
 	}
 
+	td.Flash = app.Session.PopString(r.Context(), "flash")
+	td.Warning = app.Session.PopString(r.Context(), "warning")
+	td.Error = app.Session.PopString(r.Context(), "error")
+
 	return td
 }
 
