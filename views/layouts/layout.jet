@@ -17,11 +17,22 @@
           integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous"/>
     <link href="/static/admin/css/app.css" rel="stylesheet">
 
-    <!-- override styles in adminkit.io's template -->
+    <!-- override styles in adminkit.io's template & other css -->
     <style>
         label {
             font-weight: bold;
             padding-bottom: 0.2em;
+        }
+        .notie-container {
+            z-index: 100250;
+            opacity: 0.85;
+            box-shadow: none;
+            height: 50px;
+        }
+
+        .notie-textbox-inner {
+            line-height: 10pt;
+            font-size: 14pt;
         }
     </style>
 
