@@ -4,7 +4,6 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"fmt"
-	"github.com/tsawler/vigilate/internal/forms"
 	"github.com/tsawler/vigilate/internal/helpers"
 	"github.com/tsawler/vigilate/internal/models"
 	"log"
@@ -37,18 +36,7 @@ func (repo *DBRepo) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	form := forms.New(r.PostForm)
-	form.Required("email", "password")
-	form.IsEmail("email")
-
-	if !form.Valid() {
-		err := helpers.RenderPage(w, r, "login", nil, nil)
-		if err != nil {
-			printTemplateError(w, err)
-		}
-	}
-
-	id, hash, err := repo.DB.Authenticate(form.Get("email"), form.Get("password"))
+	id, hash, err := repo.DB.Authenticate(r.Form.Get("email"), r.Form.Get("password"))
 	if err == models.ErrInvalidCredentials {
 		app.Session.Put(r.Context(), "error", "Invalid login")
 		err := helpers.RenderPage(w, r, "login", nil, nil)

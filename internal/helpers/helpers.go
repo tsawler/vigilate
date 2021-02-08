@@ -5,7 +5,6 @@ import (
 	"github.com/CloudyKit/jet/v6"
 	"github.com/justinas/nosurf"
 	"github.com/tsawler/vigilate/internal/config"
-	"github.com/tsawler/vigilate/internal/forms"
 	"github.com/tsawler/vigilate/internal/models"
 	"github.com/tsawler/vigilate/internal/templates"
 	"log"
@@ -109,13 +108,6 @@ func RenderPage(w http.ResponseWriter, r *http.Request, templateName string, var
 
 	// add default data
 	td = DefaultData(td, r, w)
-
-	if _, ok := vars["form"]; ok {
-		// form already in map
-	} else {
-		form := forms.New(nil)
-		vars.Set("form", form)
-	}
 
 	// add template functions
 	addTemplateFunctions()
