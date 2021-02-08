@@ -2,12 +2,11 @@ package main
 
 import (
 	"github.com/go-chi/chi"
-	"github.com/tsawler/vigilate/internal/config"
 	"github.com/tsawler/vigilate/internal/handlers"
 	"net/http"
 )
 
-func routes(app config.AppConfig) http.Handler {
+func routes() http.Handler {
 
 	mux := chi.NewRouter()
 

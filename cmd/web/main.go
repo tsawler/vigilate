@@ -52,7 +52,7 @@ func main() {
 	// create http server
 	srv := &http.Server{
 		Addr:              *insecurePort,
-		Handler:           routes(app),
+		Handler:           routes(),
 		IdleTimeout:       30 * time.Second,
 		ReadTimeout:       10 * time.Second,
 		ReadHeaderTimeout: 5 * time.Second,
