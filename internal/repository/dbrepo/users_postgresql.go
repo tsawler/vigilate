@@ -14,7 +14,8 @@ func (m *postgresDBRepo) AllUsers() ([]*models.User, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	stmt := `SELECT id, last_name, first_name, email, user_active, created_at, updated_at FROM users`
+	stmt := `SELECT id, last_name, first_name, email, user_active, created_at, updated_at FROM users
+		where deleted_at is null`
 
 	rows, err := m.DB.QueryContext(ctx, stmt)
 	if err != nil {
@@ -173,7 +174,7 @@ func (m *postgresDBRepo) InsertUser(u models.User) (int, error) {
 		email, 
 		password, 
 		access_level,
-		user_active,
+		user_active
 		)
     VALUES($1, $2, $3, $4, $5, $6) returning id `
 

@@ -1,0 +1,66 @@
+
+{{extends "./layouts/layout.jet"}}
+
+{{block css()}}
+
+{{end}}
+
+
+{{block cardTitle()}}
+    Users
+{{end}}
+
+
+{{block cardContent()}}
+<div class="row">
+    <div class="col">
+        <ol class="breadcrumb mt-1">
+            <li class="breadcrumb-item"><a href="/admin/overview">Overview</a></li>
+            <li class="breadcrumb-item active">Users</li>
+        </ol>
+        <h4 class="mt-4">Users</h4>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+
+        <div class="float-right">
+            <a href="/admin/user/0" class="btn btn-outline-secondary">New User</a>
+        </div>
+        <div class="clearfix mb-2"></div>
+
+        <table class="table table-condensed table-striped">
+            <thead>
+            <tr>
+                <th>User</th>
+                <th>Email</th>
+                <th class="text-center">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                {{range users}}
+            <tr>
+                <td><a href="/admin/user/{{.ID}}">{{.FirstName}} {{.LastName}}</a></td>
+                <td>{{.Email}}</td>
+                <td class="text-center">
+                    {{if .UserActive == 1}}
+                    <span class="badge bg-success">Active</span>
+                    {{else}}
+                    <span class="badge bg-danger">Inactive</span>
+                    {{end}}
+                </td>
+                {{end}}
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{{end}}
+
+{{block js()}}
+
+{{end}}

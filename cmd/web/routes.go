@@ -44,6 +44,12 @@ func routes(app config.AppConfig) http.Handler {
 		mux.Get("/all-problems", handlers.Repo.AllProblemServices(app))
 		mux.Get("/all-pending", handlers.Repo.AllPendingServices(app))
 
+		// users
+		mux.Get("/users", handlers.Repo.AllUsers(app))
+		mux.Get("/user/{id}", handlers.Repo.OneUser(app))
+		mux.Post("/user/{id}", handlers.Repo.PostOneUser(app))
+		mux.Get("/user/delete/{id}", handlers.Repo.DeleteUser)
+
 		// schedule
 		mux.Get("/schedule", handlers.Repo.ListEntries(app))
 

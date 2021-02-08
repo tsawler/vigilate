@@ -3,14 +3,17 @@ package handlers
 import (
 	"fmt"
 	"github.com/CloudyKit/jet/v6"
+	"github.com/go-chi/chi"
 	"github.com/tsawler/vigilate/internal/config"
 	"github.com/tsawler/vigilate/internal/driver"
 	"github.com/tsawler/vigilate/internal/helpers"
+	"github.com/tsawler/vigilate/internal/models"
 	"github.com/tsawler/vigilate/internal/repository"
 	"github.com/tsawler/vigilate/internal/repository/dbrepo"
 	"log"
 	"net/http"
 	"runtime/debug"
+	"strconv"
 )
 
 //Repo is the repository
@@ -140,6 +143,116 @@ func (repo *DBRepo) Host(app config.AppConfig) http.HandlerFunc {
 			printTemplateError(w, err)
 		}
 	}
+}
+
+// AllUsers lists all admin users
+func (repo *DBRepo) AllUsers(app config.AppConfig) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		vars := make(jet.VarMap)
+
+		u, err := repo.DB.AllUsers()
+		if err != nil {
+			ClientError(w, r, http.StatusBadRequest)
+			return
+		}
+
+		vars.Set("users", u)
+
+		err = helpers.RenderPage(w, r, "users", vars, nil)
+		if err != nil {
+			printTemplateError(w, err)
+		}
+	}
+}
+
+// OneUser displays the add/edit user page
+func (repo *DBRepo) OneUser(app config.AppConfig) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		id, err := strconv.Atoi(chi.URLParam(r, "id"))
+		if err != nil {
+			log.Println(err)
+		}
+
+		vars := make(jet.VarMap)
+
+		if id > 0 {
+
+			u, err := repo.DB.GetUserById(id)
+			if err != nil {
+				ClientError(w, r, http.StatusBadRequest)
+				return
+			}
+
+			vars.Set("user", u)
+		} else {
+			var u models.User
+			vars.Set("user", u)
+		}
+
+		err = helpers.RenderPage(w, r, "user", vars, nil)
+		if err != nil {
+			printTemplateError(w, err)
+		}
+	}
+}
+
+func (repo *DBRepo) PostOneUser(app config.AppConfig) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		id, err := strconv.Atoi(chi.URLParam(r, "id"))
+		if err != nil {
+			log.Println(err)
+		}
+
+		var u models.User
+
+		if id > 0 {
+			u, _ = repo.DB.GetUserById(id)
+			u.FirstName = r.Form.Get("first_name")
+			u.LastName = r.Form.Get("last_name")
+			u.Email = r.Form.Get("email")
+			u.UserActive, _ = strconv.Atoi(r.Form.Get("user_active"))
+			err := repo.DB.UpdateUser(u)
+			if err != nil {
+				log.Println(err)
+				ClientError(w, r, http.StatusBadRequest)
+				return
+			}
+
+			if len(r.Form.Get("password")) > 0 {
+				// changing password
+				err := repo.DB.UpdatePassword(id, r.Form.Get("password"))
+				if err != nil {
+					log.Println(err)
+					ClientError(w, r, http.StatusBadRequest)
+					return
+				}
+			}
+		} else {
+			u.FirstName = r.Form.Get("first_name")
+			u.LastName = r.Form.Get("last_name")
+			u.Email = r.Form.Get("email")
+			u.UserActive, _ = strconv.Atoi(r.Form.Get("user_active"))
+			u.Password = []byte(r.Form.Get("password"))
+			u.AccessLevel = 3
+
+			_, err := repo.DB.InsertUser(u)
+			if err != nil {
+				log.Println(err)
+				ClientError(w, r, http.StatusBadRequest)
+				return
+			}
+		}
+
+		repo.App.Session.Put(r.Context(), "flash", "Changes saved")
+		http.Redirect(w, r, "/admin/users", http.StatusSeeOther)
+	}
+}
+
+func (repo *DBRepo) DeleteUser(w http.ResponseWriter, r *http.Request) {
+	id, _ := strconv.Atoi(chi.URLParam(r, "id"))
+	_ = repo.DB.DeleteUser(id)
+	repo.App.Session.Put(r.Context(), "flash", "User deleted")
+	http.Redirect(w, r, "/admin/users", http.StatusSeeOther)
 }
 
 // ClientError will display error page for client error i.e. bad request

@@ -1,0 +1,168 @@
+{{extends "./layouts/layout.jet"}}
+
+{{block css()}}
+
+{{end}}
+
+
+{{block cardTitle()}}
+    User
+{{end}}
+
+
+{{block cardContent()}}
+<div class="row">
+    <div class="col">
+        <ol class="breadcrumb mt-1">
+            <li class="breadcrumb-item"><a href="/admin/overview">Overview</a></li>
+            <li class="breadcrumb-item"><a href="/admin/users">Users</a></li>
+            <li class="breadcrumb-item active">User</li>
+        </ol>
+        <h4 class="mt-4">User</h4>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <form method="post" id="settings-form" action="/admin/user/{{user.ID}}" novalidate class="needs-validation">
+            <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+
+            <div class="mb-3">
+                <label for="first_name">First Name</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-font fa-fw"></i></span>
+                    <input class="form-control required"
+                           id="first_name"
+                           required
+                           autocomplete="off" type='text'
+                           name='first_name'
+                           value='{{user.FirstName}}'>
+                    <div class="invalid-feedback">
+                        Please enter a value
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="last_name">Last Name</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-font fa-fw"></i></span>
+                    <input class="form-control required"
+                           id="last_name"
+                           required
+                           autocomplete="off" type='text'
+                           name='last_name'
+                           value='{{user.LastName}}'>
+                    <div class="invalid-feedback">
+                        Please enter a value
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="email">Email</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-envelope fa-fw"></i></span>
+                    <input class="form-control required"
+                           id="email"
+                           required
+                           autocomplete="off" type='email'
+                           name='email'
+                           value='{{user.Email}}'>
+                    <div class="invalid-feedback">
+                        Please enter a value
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="password">Password</label>
+                <small><span class="text-muted">(leave empty to retain existing password)</span></small>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-lock fa-fw"></i></span>
+                    <input class="form-control"
+                           id="password"
+                           {{if user.ID == 0}}
+                            required
+                           {{end}}
+                           autocomplete="off" type='password'
+                           name='password'
+                           value=''>
+                    <div class="invalid-feedback">
+                        Please enter a value
+                    </div>
+                </div>
+            </div>
+
+            {{if user.ID == .User.ID}}
+                <input type="hidden" name="user_active" value="{{user.UserActive}}">
+            {{else}}
+                <div class="mb-3">
+                    <label for="user_active">Status</label>
+                    <div class="input-group">
+                        <select class="form-select" name="user_active">
+                            <option value="1" {{if user.UserActive == 1}} selected {{end}}>Active</option>
+                            <option value="0" {{if user.UserActive == 0}} selected {{end}}>Inactive</option>
+                        </select>
+                    </div>
+                </div>
+            {{end}}
+
+            <hr>
+
+            <div class="float-left">
+
+                <input type="submit" class="btn btn-primary" value="Save">
+
+                <a class="btn btn-info" href="/admin/users">Cancel</a>
+            </div>
+
+            <div class="float-right">
+                {{if user.ID > 0}}
+                {{if user.ID != .User.ID}}
+                <a class="btn btn-danger" href="javascript:void(0);" onclick="deleteUser({{user.ID}})">Delete</a>
+                {{end}}
+                {{end}}
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+{{end}}
+
+{{block js()}}
+<script>
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            var forms = document.getElementsByClassName('needs-validation');
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+
+    {{if user.ID != .User.ID}}
+    function deleteUser(x) {
+        attention.confirm({
+            msg: "Are you sure?",
+            icon: 'warning',
+            callback: function(result) {
+                if (result !== false) {
+                    window.location.href = "/admin/user/delete/" + x;
+                }
+            }
+        })
+    }
+    {{end}}
+</script>
+{{end}}
