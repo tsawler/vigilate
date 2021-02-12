@@ -1,0 +1,26 @@
+create_table("host_services") {
+    t.Column("id", "integer", {primary: true})
+    t.Column("host_id", "integer", {})
+    t.Column("service_id", "integer", {})
+    t.Column("active", "integer", {"default":1})
+    t.Column("schedule_number", "integer", {"default": 3})
+    t.Column("schedule_unit", "string", {"default": "m"})
+    t.Column("last_check", "timestamp", {"default": "0001-01-01 00:00:01"})
+}
+
+sql(`
+    CREATE TRIGGER set_timestamp
+        BEFORE UPDATE on host_services
+        FOR EACH ROW
+    EXECUTE PROCEDURE trigger_set_timestamp();
+`)
+
+add_foreign_key("host_services", "host_id", {"hosts": ["id"]}, {
+    "on_delete": "cascade",
+    "on_update": "cascade",
+})
+
+add_foreign_key("host_services", "service_id", {"services": ["id"]}, {
+    "on_delete": "cascade",
+    "on_update": "cascade",
+})
