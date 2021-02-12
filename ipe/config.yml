@@ -10,8 +10,8 @@ apps:
   - name: "App"
     enabled: true
     only_ssl: false
-    key: "123abc"
-    secret: "abc123"
+    key: "abc123"
+    secret: "123abc"
     app_id: "1"
     user_events: true
     webhooks:
