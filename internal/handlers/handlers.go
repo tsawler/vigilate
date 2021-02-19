@@ -146,11 +146,35 @@ func (repo *DBRepo) Host(w http.ResponseWriter, r *http.Request) {
 
 // PostHost handles posting of host form
 func (repo *DBRepo) PostHost(w http.ResponseWriter, r *http.Request) {
-	//err := helpers.RenderPage(w, r, "host", nil, nil)
-	//if err != nil {
-	//	printTemplateError(w, err)
-	//}
-	w.Write([]byte("Posted form!"))
+	id, _ := strconv.Atoi(chi.URLParam(r, "id"))
+
+	var h models.Host
+	var hostID int
+
+	if id > 0 {
+		// get the host from the database
+	} else {
+		h.HostName = r.Form.Get("host_name")
+		h.CanonicalName = r.Form.Get("canonical_name")
+		h.URL = r.Form.Get("url")
+		h.IP = r.Form.Get("ip")
+		h.IPV6 = r.Form.Get("ipv6")
+		h.Location = r.Form.Get("location")
+		h.OS = r.Form.Get("os")
+		active, _ := strconv.Atoi(r.Form.Get("active"))
+		h.Active = active
+
+		newID, err := repo.DB.InsertHost(h)
+		if err != nil {
+			log.Println(err)
+			helpers.ServerError(w, r, err)
+			return
+		}
+		hostID = newID
+	}
+
+	repo.App.Session.Put(r.Context(), "flash", "Changes saved")
+	http.Redirect(w, r, fmt.Sprintf("/admin/host/%d", hostID), http.StatusSeeOther)
 }
 
 // AllUsers lists all admin users

@@ -30,7 +30,7 @@ Host
 <div class="row">
     <div class="col">
 
-        <form method="post" action="/admin/host/0" novalidate class="needs-validation" id="host-form">
+        <form method="post" action="/admin/host/{{host.ID}}" novalidate class="needs-validation" id="host-form">
             <input type="hidden" name="action" value="1" id="action">
             <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
 
@@ -77,39 +77,39 @@ Host
 
                             <div class="mb-3">
                                 <label for="canonical_name" class="form-label">Canonical Name</label>
-                                <input required id="canonical_name" name="canonical_name" value="" type="text"
+                                <input required id="canonical_name" name="canonical_name" value="{{host.CanonicalName}}" type="text"
                                        class="form-control">
                             </div>
 
                             <div class="mb-3">
                                 <label for="url" class="form-label">URL</label>
-                                <input required id="url" name="url" value="" type="text" class="form-control">
+                                <input required id="url" name="url" value="{{host.URL}}" type="text" class="form-control">
                             </div>
 
                             <div class="mb-3">
                                 <label for="ip" class="form-label">IP Address (v4)</label>
-                                <input id="ip" name="ip" value="" type="text" class="form-control">
+                                <input id="ip" name="ip" value="{{host.IP}}" type="text" class="form-control">
                             </div>
 
                             <div class="mb-3">
                                 <label for="ipv6" class="form-label">IP Address (v6)</label>
-                                <input id="ipv6" name="ipv6" value="" type="text" class="form-control">
+                                <input id="ipv6" name="ipv6" value="{{host.IPV6}}" type="text" class="form-control">
                             </div>
                         </div>
 
                         <div class="col-md-6 col-xs-12">
                             <div class="mt-3 mb-3">
                                 <label for="location" class="form-label">Location</label>
-                                <input id="location" name="location" value="" type="text" class="form-control">
+                                <input id="location" name="location" value="{{host.Location}}" type="text" class="form-control">
                             </div>
 
                             <div class="mt-3 mb-3">
                                 <label for="os" class="form-label">Operating System</label>
-                                <input id="os" name="os" value="" type="text" class="form-control">
+                                <input id="os" name="os" value="{{host.OS}}" type="text" class="form-control">
                             </div>
 
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="active" name="active">
+                                <input class="form-check-input" value="{{host.Active}}" type="checkbox" id="active" name="active">
                                 <label class="form-check-label" for="active">Active</label>
                             </div>
                         </div>
