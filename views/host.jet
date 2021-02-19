@@ -31,6 +31,8 @@ Host
     <div class="col">
 
         <form method="post" action="/admin/host/0" novalidate class="needs-validation" id="host-form">
+            <input type="hidden" name="action" value="1" id="action">
+            <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
 
             <ul class="nav nav-tabs" id="host-tabs">
                 <li class="nav-item">
@@ -68,18 +70,18 @@ Host
 
                             <div class="mt-3 mb-3">
                                 <label for="host_name" class="form-label">Host Name</label>
-                                <input id="host_name" name="host_name" value="" type="text" class="form-control">
+                                <input required id="host_name" name="host_name" value="" type="text" class="form-control">
                             </div>
 
                             <div class="mb-3">
                                 <label for="canonical_name" class="form-label">Canonical Name</label>
-                                <input id="canonical_name" name="canonical_name" value="" type="text"
+                                <input required id="canonical_name" name="canonical_name" value="" type="text"
                                        class="form-control">
                             </div>
 
                             <div class="mb-3">
                                 <label for="url" class="form-label">URL</label>
-                                <input id="url" name="url" value="" type="text" class="form-control">
+                                <input required id="url" name="url" value="" type="text" class="form-control">
                             </div>
 
                             <div class="mb-3">
@@ -164,5 +166,37 @@ Host
 
 
 {{ block js() }}
+<script>
+    function val() {
+        document.getElementById("action").value = 0;
+        let form = document.getElementById("host-form");
+        if (form.checkValidity() === false) {
+            errorAlert("Error: check all tabs!");
+            this.event.preventDefault();
+            this.event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+
+        if (form.checkValidity() === true) {
+            form.submit();
+        }
+    }
+
+    function saveClose() {
+        document.getElementById("action").value = 1;
+        let form = document.getElementById("host-form");
+        if (form.checkValidity() === false) {
+            errorAlert("Error: check all tabs!");
+            this.event.preventDefault();
+            this.event.stopPropagation();
+
+        }
+        form.classList.add('was-validated');
+
+        if (form.checkValidity() === true) {
+            form.submit();
+        }
+    }
+</script>
 
 {{end}}
