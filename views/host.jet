@@ -40,26 +40,26 @@ Host
                        id="host-tab" role="tab">Host</a>
                 </li>
                 {{if host.ID > 0}}
-                    <li class="nav-item">
-                        <a class="nav-link" href="#services-content" data-target="" data-toggle="tab"
-                           id="services-tab" role="tab">Manage Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#healthy-content" data-target="" data-toggle="tab"
-                           id="healthy-tab" role="tab">Healthy</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#warning-content" data-target="" data-toggle="tab"
-                           id="warning-tab" role="tab">Warning</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#problem-content" data-target="" data-toggle="tab"
-                           id="problem-tab" role="tab">Problems</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#pending-content" data-target="" data-toggle="tab"
-                           id="pending-tab" role="tab">Pending</a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#services-content" data-target="" data-toggle="tab"
+                       id="services-tab" role="tab">Manage Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#healthy-content" data-target="" data-toggle="tab"
+                       id="healthy-tab" role="tab">Healthy</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#warning-content" data-target="" data-toggle="tab"
+                       id="warning-tab" role="tab">Warning</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#problem-content" data-target="" data-toggle="tab"
+                       id="problem-tab" role="tab">Problems</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#pending-content" data-target="" data-toggle="tab"
+                       id="pending-tab" role="tab">Pending</a>
+                </li>
                 {{end}}
             </ul>
 
@@ -72,18 +72,21 @@ Host
 
                             <div class="mt-3 mb-3">
                                 <label for="host_name" class="form-label">Host Name</label>
-                                <input required id="host_name" name="host_name" value="{{host.HostName}}" type="text" class="form-control">
+                                <input required id="host_name" name="host_name" value="{{host.HostName}}" type="text"
+                                       class="form-control">
                             </div>
 
                             <div class="mb-3">
                                 <label for="canonical_name" class="form-label">Canonical Name</label>
-                                <input required id="canonical_name" name="canonical_name" value="{{host.CanonicalName}}" type="text"
+                                <input required id="canonical_name" name="canonical_name" value="{{host.CanonicalName}}"
+                                       type="text"
                                        class="form-control">
                             </div>
 
                             <div class="mb-3">
                                 <label for="url" class="form-label">URL</label>
-                                <input required id="url" name="url" value="{{host.URL}}" type="text" class="form-control">
+                                <input required id="url" name="url" value="{{host.URL}}" type="text"
+                                       class="form-control">
                             </div>
 
                             <div class="mb-3">
@@ -100,7 +103,8 @@ Host
                         <div class="col-md-6 col-xs-12">
                             <div class="mt-3 mb-3">
                                 <label for="location" class="form-label">Location</label>
-                                <input id="location" name="location" value="{{host.Location}}" type="text" class="form-control">
+                                <input id="location" name="location" value="{{host.Location}}" type="text"
+                                       class="form-control">
                             </div>
 
                             <div class="mt-3 mb-3">
@@ -109,7 +113,8 @@ Host
                             </div>
 
                             <div class="form-check form-switch">
-                                <input class="form-check-input" value="1" {{if host.Active == 1}} checked {{end}} type="checkbox" id="active" name="active">
+                                <input class="form-check-input" value="1" {{if host.Active== 1}} checked {{end}}
+                                       type="checkbox" id="active" name="active">
                                 <label class="form-check-label" for="active">Active</label>
                             </div>
                         </div>
@@ -125,7 +130,8 @@ Host
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="javascript:void(0);" onclick="saveClose()">Save &amp;
                                         Close</a>
-                                    <a class="dropdown-item" href="javascript:void(0);" onclick="val()">Save &amp; Continue</a>
+                                    <a class="dropdown-item" href="javascript:void(0);" onclick="val()">Save &amp;
+                                        Continue</a>
                                 </div>
                             </div>
 
@@ -136,30 +142,55 @@ Host
 
                 {{if host.ID > 0}}
 
-                    <div class="tab-pane fade" role="tabpanel" aria-labelledby="services-tab"
-                         id="services-content">
-                        services content
-                    </div>
+                <div class="tab-pane fade" role="tabpanel" aria-labelledby="services-tab"
+                     id="services-content">
+                    <div class="row">
+                        <div class="col">
+                            <h3 class="mt-3">Services</h3>
 
-                    <div class="tab-pane fade" role="tabpanel" aria-labelledby="healthy-tab"
-                         id="healthy-content">
-                        healthy content
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Service</th>
+                                    <th>Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>HTTP</td>
+                                    <td>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" value="1" type="checkbox" id="http_service"
+                                                   name="http">
+                                            <label class="form-check-label" for="active">Active</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+                </div>
 
-                    <div class="tab-pane fade" role="tabpanel" aria-labelledby="warning-tab"
-                         id="warning-content">
-                        warning content
-                    </div>
+                <div class="tab-pane fade" role="tabpanel" aria-labelledby="healthy-tab"
+                     id="healthy-content">
+                    healthy content
+                </div>
 
-                    <div class="tab-pane fade" role="tabpanel" aria-labelledby="problem-tab"
-                         id="problem-content">
-                        problem content
-                    </div>
+                <div class="tab-pane fade" role="tabpanel" aria-labelledby="warning-tab"
+                     id="warning-content">
+                    warning content
+                </div>
 
-                    <div class="tab-pane fade" role="tabpanel" aria-labelledby="pending-tab"
-                         id="pending-content">
-                        pending content
-                    </div>
+                <div class="tab-pane fade" role="tabpanel" aria-labelledby="problem-tab"
+                     id="problem-content">
+                    problem content
+                </div>
+
+                <div class="tab-pane fade" role="tabpanel" aria-labelledby="pending-tab"
+                     id="pending-content">
+                    pending content
+                </div>
 
                 {{end}}
             </div>
