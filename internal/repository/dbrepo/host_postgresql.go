@@ -103,3 +103,51 @@ func (m *postgresDBRepo) UpdateHost(h models.Host) error {
 
 	return nil
 }
+
+// AllHosts returns a slice of hosts
+func (m *postgresDBRepo) AllHosts() ([]models.Host, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	query := `
+		select id, host_name, canonical_name, url, ip, ipv6, location, os,
+		active, created_at, updated_at from hosts order by host_name
+`
+
+	rows, err := m.DB.QueryContext(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var hosts []models.Host
+
+	for rows.Next() {
+		var h models.Host
+		err = rows.Scan(
+			&h.ID,
+			&h.HostName,
+			&h.CanonicalName,
+			&h.URL,
+			&h.IP,
+			&h.IPV6,
+			&h.Location,
+			&h.OS,
+			&h.Active,
+			&h.CreatedAt,
+			&h.UpdatedAt,
+		)
+		if err != nil {
+			log.Println(err)
+			return nil, err
+		}
+		hosts = append(hosts, h)
+	}
+
+	if err = rows.Err(); err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	return hosts, nil
+}

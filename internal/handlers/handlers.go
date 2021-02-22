@@ -119,7 +119,18 @@ func (repo *DBRepo) PostSettings(w http.ResponseWriter, r *http.Request) {
 
 // AllHosts displays list of all hosts
 func (repo *DBRepo) AllHosts(w http.ResponseWriter, r *http.Request) {
-	err := helpers.RenderPage(w, r, "hosts", nil, nil)
+	// get all hosts from database
+	hosts, err := repo.DB.AllHosts()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	// send data to template
+	vars := make(jet.VarMap)
+	vars.Set("hosts", hosts)
+
+	err = helpers.RenderPage(w, r, "hosts", vars, nil)
 	if err != nil {
 		printTemplateError(w, err)
 	}
