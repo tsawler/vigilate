@@ -109,7 +109,7 @@ Host
                             </div>
 
                             <div class="form-check form-switch">
-                                <input class="form-check-input" value="{{host.Active}}" type="checkbox" id="active" name="active">
+                                <input class="form-check-input" value="1" {{if host.Active == 1}} checked {{end}} type="checkbox" id="active" name="active">
                                 <label class="form-check-label" for="active">Active</label>
                             </div>
                         </div>

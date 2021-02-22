@@ -79,7 +79,7 @@ func (m *postgresDBRepo) UpdateHost(h models.Host) error {
 	defer cancel()
 
 	stmt := `
-		update hosts set host_name = $1, canonical_name = $2, url = $3, ip = $4, ipv6 = $5, os = $6
+		update hosts set host_name = $1, canonical_name = $2, url = $3, ip = $4, ipv6 = $5, os = $6,
 		active = $7, location = $8, updated_at = $9 where id = $10
 `
 
