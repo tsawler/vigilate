@@ -215,16 +215,16 @@ Host
         for (let i = 0; i < toggles.length; i++) {
             toggles[i].addEventListener("change", function(){
 
-                let turnOn = "1";
+                let active = "1";
                 if (!this.checked) {
-                    turnOn = "0";
+                    active = "0";
                 }
 
                 let formData = new FormData();
                 formData.append("host_id", this.getAttribute("data-host-id"));
                 formData.append("service_id", this.getAttribute("data-service"));
+                formData.append("active", active);
                 formData.append("csrf_token", "{{.CSRFToken}}");
-                formData.append("turn_service_on", turnOn);
 
                 fetch("/admin/host/ajax/toggle-service", {
                     method: "POST",
@@ -232,7 +232,8 @@ Host
                 })
                 .then(response => response.json())
                 .then(data => {
-                    console.log("called ajax"):
+                    console.log("called ajax");
+                    console.log("OK is", data.ok);
                 })
             })
         }
