@@ -156,20 +156,25 @@ Host
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>HTTP</td>
-                                    <td>
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" value="1" type="checkbox"
-                                                   id="http_service"
-                                                   data-type="toggle-service"
-                                                   data-service="1"
-                                                   data-host-id="{{host.ID}}"
-                                                   name="http">
-                                            <label class="form-check-label" for="active">Active</label>
-                                        </div>
-                                    </td>
-                                </tr>
+
+                                {{range host.HostServices}}
+                                    <tr>
+                                        <td>{{.Service.ServiceName}}</td>
+                                        <td>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" value="1" type="checkbox"
+                                                       data-type="toggle-service"
+                                                       data-service="{{.ServiceID}}"
+                                                       data-host-id="{{.HostID}}"
+                                                       {{if .Active == 1}}
+                                                       checked
+                                                       {{end}}
+                                                       name="{{.Service.ServiceName}}">
+                                                <label class="form-check-label" for="active">Active</label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {{end}}
                                 </tbody>
                             </table>
                         </div>

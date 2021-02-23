@@ -81,6 +81,55 @@ func (m *postgresDBRepo) GetHostByID(id int) (models.Host, error) {
 		return h, err
 	}
 
+	// get all services for host
+	query = `select 
+       				hs.id, hs.host_id, hs.service_id, hs.active, hs.schedule_number, hs.schedule_unit, 
+					hs.last_check, hs.status, hs.created_at, hs.updated_at,
+       				s.id, s.service_name, s.active, s.icon, s.created_at, s.updated_at
+				from 
+				    host_services hs
+					left join services s on (s.id = hs.service_id)
+				where
+					host_id = $1
+`
+
+	rows, err := m.DB.QueryContext(ctx, query, h.ID)
+	if err != nil {
+		log.Println(err)
+		return h, err
+	}
+	defer rows.Close()
+
+	var hostServices []models.HostService
+	for rows.Next() {
+		var hs models.HostService
+		err := rows.Scan(
+			&hs.ID,
+			&hs.HostID,
+			&hs.ServiceID,
+			&hs.Active,
+			&hs.ScheduleNumber,
+			&hs.ScheduleUnit,
+			&hs.LastCheck,
+			&hs.Status,
+			&hs.CreatedAt,
+			&hs.UpdatedAt,
+			&hs.Service.ID,
+			&hs.Service.ServiceName,
+			&hs.Service.Active,
+			&hs.Service.Icon,
+			&hs.Service.CreatedAt,
+			&hs.Service.UpdatedAt,
+		)
+		if err != nil {
+			log.Println(err)
+			return h, err
+		}
+		hostServices = append(hostServices, hs)
+	}
+
+	h.HostServices = hostServices
+
 	return h, nil
 }
 
