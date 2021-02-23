@@ -160,7 +160,11 @@ Host
                                     <td>HTTP</td>
                                     <td>
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" value="1" type="checkbox" id="http_service"
+                                            <input class="form-check-input" value="1" type="checkbox"
+                                                   id="http_service"
+                                                   data-type="toggle-service"
+                                                   data-service="1"
+                                                   data-host-id="{{host.ID}}"
                                                    name="http">
                                             <label class="form-check-label" for="active">Active</label>
                                         </div>
@@ -204,6 +208,36 @@ Host
 
 {{ block js() }}
 <script>
+
+    document.addEventListener("DOMContentLoaded", function(){
+        let toggles = document.querySelectorAll("[data-service]");
+
+        for (let i = 0; i < toggles.length; i++) {
+            toggles[i].addEventListener("change", function(){
+
+                let turnOn = "1";
+                if (!this.checked) {
+                    turnOn = "0";
+                }
+
+                let formData = new FormData();
+                formData.append("host_id", this.getAttribute("data-host-id"));
+                formData.append("service_id", this.getAttribute("data-service"));
+                formData.append("csrf_token", "{{.CSRFToken}}");
+                formData.append("turn_service_on", turnOn);
+
+                fetch("/admin/host/ajax/toggle-service", {
+                    method: "POST",
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("called ajax"):
+                })
+            })
+        }
+    })
+
     function val() {
         document.getElementById("action").value = 0;
         let form = document.getElementById("host-form");
