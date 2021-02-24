@@ -1,33 +1,93 @@
 <script src="/static/admin/js/pusher.min.js"></script>
 
 <script>
-    let pusher = new Pusher("{{.PreferenceMap["pusher-key"]}}", {
+    let pusher = new Pusher("{{.PreferenceMap["
+    pusher - key
+    "]}}", {
         authEndPoint: "/pusher/auth",
         wsHost: "localhost",
         wsPort: 4001,
         forceTLS: false,
         enabledTransports: ["ws", "wss"],
         disabledTransports: []
-    });
+    }
+    )
+    ;
 
     let publicChannel = pusher.subscribe("public-channel");
 
-    publicChannel.bind("test-event", function(data) {
+    publicChannel.bind("test-event", function (data) {
         successAlert(data.message);
     })
 
 
     let attention = Prompt();
 
-    {{if .Flash != ""}}
-        successAlert('{{.Flash}}')
-    {{end}}
+    {
+        {
+            if .
+            Flash != ""
+        }
+    }
+    successAlert('{{.Flash}}')
+    {
+        {
+            end
+        }
+    }
 
-    {{if .Warning != ""}}
-        warningAlert('{{.Warning}}')
-    {{end}}
+    {
+        {
+            if .
+            Warning != ""
+        }
+    }
+    warningAlert('{{.Warning}}')
+    {
+        {
+            end
+        }
+    }
 
-    {{if .Error != ""}}
-        errorAlert('{{.Error}}')
-    {{end}}
+    {
+        {
+            if .
+            Error != ""
+        }
+    }
+    errorAlert('{{.Error}}')
+    {
+        {
+            end
+        }
+    }
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        let tabMap = new Map();
+        let tabs = document.querySelectorAll('[data-toggle="tab"]');
+        let i = 0;
+        Array.prototype.filter.call(tabs, function (el) {
+            el.addEventListener("click", function () {
+                history.pushState("", document.title, window.location.pathname);
+                localStorage.setItem('activeTab', el.getAttribute("data-target"));
+            })
+
+            tabMap.set(el.getAttribute("href"), i);
+            i++;
+        });
+
+
+        if (!window.location.hash) {
+            let activeTab = localStorage.getItem('activeTab');
+            if (activeTab) {
+                document.querySelectorAll('[data-toggle="tab"]')[activeTab].Tab.show()
+            }
+        } else {
+            if (tabMap.has(window.location.hash)) {
+                document.querySelectorAll('[data-toggle="tab"]')[tabMap.get(window.location.hash)].Tab.show()
+            }
+        }
+    });
+
 </script>
