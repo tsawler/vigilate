@@ -326,7 +326,8 @@ func (m *postgresDBRepo) GetServicesByStatus(status string) ([]models.HostServic
 			left join services s on (hs.service_id = s.id)
 		where
 			status = $1
-			and hs.active = 1`
+			and hs.active = 1
+		order by host_name, service_name`
 
 	var services []models.HostService
 
