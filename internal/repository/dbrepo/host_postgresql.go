@@ -310,6 +310,7 @@ func (m *postgresDBRepo) UpdateHostServiceStatus(hostID, serviceID, active int) 
 	return nil
 }
 
+// GetServicesByStatus returns all active services with a given status
 func (m *postgresDBRepo) GetServicesByStatus(status string) ([]models.HostService, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
