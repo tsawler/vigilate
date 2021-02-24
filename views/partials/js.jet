@@ -23,44 +23,17 @@
 
     let attention = Prompt();
 
-    {
-        {
-            if .
-            Flash != ""
-        }
-    }
+    {{if .Flash != ""}}
     successAlert('{{.Flash}}')
-    {
-        {
-            end
-        }
-    }
+    {{end}}
 
-    {
-        {
-            if .
-            Warning != ""
-        }
-    }
+    {{if .Warning != ""}}
     warningAlert('{{.Warning}}')
-    {
-        {
-            end
-        }
-    }
+    {{end}}
 
-    {
-        {
-            if .
-            Error != ""
-        }
-    }
+    {{if .Error != ""}}
     errorAlert('{{.Error}}')
-    {
-        {
-            end
-        }
-    }
+    {{end}}
 
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -76,7 +49,6 @@
             tabMap.set(el.getAttribute("href"), i);
             i++;
         });
-
 
         if (!window.location.hash) {
             let activeTab = localStorage.getItem('activeTab');
