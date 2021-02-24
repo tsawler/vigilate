@@ -87,6 +87,25 @@
             </tr>
             </thead>
             <tbody>
+            {{range hosts}}
+                <tr>
+                    <td><a href="/admin/host/{{.ID}}">{{.HostName}}</a></td>
+                    <td>
+                        {{range .HostServices}}
+                        <span class="badge bg-info">{{.Service.ServiceName}}</span>
+                        {{end}}
+                    </td>
+                    <td>{{.OS}}</td>
+                    <td>{{.Location}}</td>
+                    <td>
+                        {{if .Active == 1}}
+                            <span class="badge bg-success">Active</span>
+                        {{else}}
+                            <span class="badge bg-danger">Inactive</span>
+                        {{end}}
+                    </td>
+                </tr>
+            {{end}}
 
             </tbody>
         </table>
