@@ -183,22 +183,139 @@ Host
 
                 <div class="tab-pane fade" role="tabpanel" aria-labelledby="healthy-tab"
                      id="healthy-content">
-                    healthy content
+                    <div class="row">
+                        <div class="col">
+                            <h4 class="pt-3">Healthy Services</h4>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Service</th>
+                                    <th>Last Check</th>
+                                    <th>Message</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {{range host.HostServices}}
+                                {{if .Status == "healthy"}}
+                                <tr>
+                                    <td>
+                                        {{.Service.ServiceName}}
+                                        <span class="badge bg-secondary" onclick="checkNow({{.ID}})">
+                                                Check Now
+                                            </span>
+                                    </td>
+                                    <td>{{.LastCheck}}</td>
+                                    <td></td>
+                                </tr>
+                                {{end}}
+                                {{end}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="tab-pane fade" role="tabpanel" aria-labelledby="warning-tab"
                      id="warning-content">
-                    warning content
+                    <div class="row">
+                        <div class="col">
+                            <h4 class="pt-3">Warning Services</h4>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Service</th>
+                                    <th>Last Check</th>
+                                    <th>Message</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {{range host.HostServices}}
+                                {{if .Status == "warning"}}
+                                <tr>
+                                    <td>
+                                        {{.Service.ServiceName}}
+                                        <span class="badge bg-secondary" onclick="checkNow({{.ID}})">
+                                                Check Now
+                                            </span>
+                                    </td>
+                                    <td>{{.LastCheck}}</td>
+                                    <td></td>
+                                </tr>
+                                {{end}}
+                                {{end}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="tab-pane fade" role="tabpanel" aria-labelledby="problem-tab"
                      id="problem-content">
-                    problem content
+                    <div class="row">
+                        <div class="col">
+                            <h4 class="pt-3">Problem Services</h4>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Service</th>
+                                    <th>Last Check</th>
+                                    <th>Message</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {{range host.HostServices}}
+                                    {{if .Status == "problem"}}
+                                    <tr>
+                                        <td>
+                                            {{.Service.ServiceName}}
+                                            <span class="badge bg-secondary" onclick="checkNow({{.ID}})">
+                                                Check Now
+                                            </span>
+                                        </td>
+                                        <td>{{.LastCheck}}</td>
+                                        <td></td>
+                                    </tr>
+                                    {{end}}
+                                {{end}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="tab-pane fade" role="tabpanel" aria-labelledby="pending-tab"
                      id="pending-content">
-                    pending content
+
+                    <div class="row">
+                        <div class="col">
+                            <h4 class="pt-3">Pending Services</h4>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Service</th>
+                                    <th>Last Check</th>
+                                    <th>Message</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {{range host.HostServices}}
+                                    {{if .Status == "pending"}}
+                                    <tr>
+                                        <td>
+                                            {{.Service.ServiceName}}
+                                            <span class="badge bg-secondary" onclick="checkNow({{.ID}})">
+                                                Check Now
+                                            </span>
+                                        </td>
+                                        <td>{{.LastCheck}}</td>
+                                        <td></td>
+                                    </tr>
+                                    {{end}}
+                                {{end}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
                 {{end}}
@@ -276,6 +393,10 @@ Host
         if (form.checkValidity() === true) {
             form.submit();
         }
+    }
+
+    function checkNow(id) {
+        console.log("Clicked check now");
     }
 </script>
 
