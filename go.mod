@@ -1,6 +1,6 @@
 module github.com/tsawler/vigilate
 
-go 1.15
+go 1.16
 
 require (
 	github.com/CloudyKit/jet/v6 v6.0.2
