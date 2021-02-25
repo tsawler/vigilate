@@ -400,7 +400,6 @@ Host
             errorAlert("Error: check all tabs!");
             this.event.preventDefault();
             this.event.stopPropagation();
-
         }
         form.classList.add('was-validated');
 
