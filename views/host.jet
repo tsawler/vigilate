@@ -417,6 +417,27 @@ Host
             .then(response => response.json())
             .then(data => {
                 console.log("Ok:", data.ok, "message", data.message)
+
+                if (data.ok) {
+                    if (data.old_status !== data.new_status) {
+                        attention.toast({
+                            msg: data.message,
+                            icon: "info",
+                            timer: 60000,
+                            showCloseButton: true,
+                        })
+                    } else {
+                        attention.toast({
+                            msg: "Service is still in " + data.new_status + " state",
+                            icon: "info",
+                            timer: 5000,
+                            showCloseButton: true,
+                        })
+                    }
+
+                } else {
+                    errorAlert("Something went wrong");
+                }
             });
     }
 </script>
