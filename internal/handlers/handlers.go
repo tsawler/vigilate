@@ -249,13 +249,11 @@ func (repo *DBRepo) OneUser(w http.ResponseWriter, r *http.Request) {
 	vars := make(jet.VarMap)
 
 	if id > 0 {
-
 		u, err := repo.DB.GetUserById(id)
 		if err != nil {
 			ClientError(w, r, http.StatusBadRequest)
 			return
 		}
-
 		vars.Set("user", u)
 	} else {
 		var u models.User
