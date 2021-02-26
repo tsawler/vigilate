@@ -5,7 +5,7 @@ type job struct {
 	HostServiceID int
 }
 
-// Run runs the scheduler
+// Run runs the scheduled job
 func (j job) Run() {
 
 }
