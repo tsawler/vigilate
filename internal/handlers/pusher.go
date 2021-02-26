@@ -34,6 +34,7 @@ func (repo *DBRepo) PusherAuth(w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write(response)
 }
 
+// TestPusher just tests pusher - delete this before going into production
 func (repo *DBRepo) TestPusher(w http.ResponseWriter, r *http.Request) {
 	data := make(map[string]string)
 	data["message"] = "Hello, world"

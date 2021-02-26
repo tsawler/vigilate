@@ -13,8 +13,11 @@ import (
 )
 
 const (
-	HTTP           = 1
-	HTTPS          = 2
+	// HTTP is the unencrypted web service check
+	HTTP = 1
+	// HTTPS is the encrypted web service check
+	HTTPS = 2
+	// SSLCertificate is ssl certificate check
 	SSLCertificate = 3
 )
 
