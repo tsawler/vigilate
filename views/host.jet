@@ -2,7 +2,9 @@
 
 {{block css()}}
 <style>
-
+.pointer {
+    cursor: pointer;
+}
 </style>
 {{end}}
 
@@ -311,7 +313,7 @@ Host
                                         <td>
                                             <span class="{{.Service.Icon}}"></span>
                                             {{.Service.ServiceName}}
-                                            <span class="badge bg-secondary" onclick="checkNow({{.ID}}, 'pending')">
+                                            <span class="badge bg-secondary pointer" onclick="checkNow({{.ID}}, 'pending')">
                                                 Check Now
                                             </span>
                                         </td>
