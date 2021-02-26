@@ -409,17 +409,12 @@ Host
     }
 
     function checkNow(id, oldStatus) {
+        console.log("Clicked check now")
+
         fetch('/admin/perform-check/' + id + '/' + oldStatus)
             .then(response => response.json())
             .then(data => {
-                if (data.ok) {
-                    if (data.is_error) {
-                        errorAlert(data.message);
-                    } else {
-                        successAlert(data.message);
-                    }
-
-                }
+                console.log("Ok:", data.ok, "message", data.message)
             });
     }
 </script>
