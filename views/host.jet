@@ -201,18 +201,18 @@ Host
                                 {{if .Status == "healthy"}}
                                 <tr>
                                     <td>
+                                        <span class="{{.Service.Icon}}"></span>
                                         {{.Service.ServiceName}}
-                                        <span class="badge bg-secondary" onclick="checkNow({{.ID}})">
+                                        <span class="badge bg-secondary pointer" onclick="checkNow({{.ID}}, 'healthy')">
                                                 Check Now
                                             </span>
                                     </td>
                                     <td>
                                         {{if dateAfterYearOne(.LastCheck)}}
-                                        {{.LastCheck}}
+                                            {{dateFromLayout(.LastCheck, "2006-01-02 15:04")}}
                                         {{else}}
-
+                                            Pending...
                                         {{end}}
-
                                     </td>
                                     <td></td>
                                 </tr>
@@ -242,12 +242,19 @@ Host
                                 {{if .Status == "warning"}}
                                 <tr>
                                     <td>
+                                        <span class="{{.Service.Icon}}"></span>
                                         {{.Service.ServiceName}}
-                                        <span class="badge bg-secondary" onclick="checkNow({{.ID}})">
+                                        <span class="badge bg-secondary pointer" onclick="checkNow({{.ID}}, 'warning')">
                                                 Check Now
                                             </span>
                                     </td>
-                                    <td>{{.LastCheck}}</td>
+                                    <td>
+                                        {{if dateAfterYearOne(.LastCheck)}}
+                                            {{dateFromLayout(.LastCheck, "2006-01-02 15:04")}}
+                                        {{else}}
+                                            Pending...
+                                        {{end}}
+                                    </td>
                                     <td></td>
                                 </tr>
                                 {{end}}
@@ -276,12 +283,19 @@ Host
                                     {{if .Status == "problem"}}
                                     <tr>
                                         <td>
+                                            <span class="{{.Service.Icon}}"></span>
                                             {{.Service.ServiceName}}
-                                            <span class="badge bg-secondary" onclick="checkNow({{.ID}})">
+                                            <span class="badge bg-secondary pointer" onclick="checkNow({{.ID}}, 'problem')">
                                                 Check Now
                                             </span>
                                         </td>
-                                        <td>{{.LastCheck}}</td>
+                                        <td>
+                                            {{if dateAfterYearOne(.LastCheck)}}
+                                                {{dateFromLayout(.LastCheck, "2006-01-02 15:04")}}
+                                            {{else}}
+                                                Pending...
+                                            {{end}}
+                                        </td>
                                         <td></td>
                                     </tr>
                                     {{end}}
