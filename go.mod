@@ -9,7 +9,7 @@ require (
 	github.com/alexedwards/scs/v2 v2.4.0
 	github.com/andybalholm/cascadia v1.2.0 // indirect
 	github.com/aymerick/douceur v0.2.0
-	github.com/go-chi/chi v4.1.2+incompatible
+	github.com/go-chi/chi/v5 v5.0.0
 	github.com/gorilla/css v1.0.0 // indirect
 	github.com/jackc/pgconn v1.8.0
 	github.com/jackc/pgproto3/v2 v2.0.7 // indirect
