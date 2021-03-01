@@ -391,6 +391,7 @@ func (repo *DBRepo) ToggleServiceForHost(w http.ResponseWriter, r *http.Request)
 	w.Write(out)
 }
 
+// SetSystemPref sets a given system preference to supplied value, and returns JSON response
 func (repo *DBRepo) SetSystemPref(w http.ResponseWriter, r *http.Request) {
 	var resp jsonResp
 	resp.OK = true
