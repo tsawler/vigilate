@@ -113,8 +113,13 @@
             <div class="navbar-collapse collapse">
                 <form class="form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="monitoring-live">
-                        <label id="monitoring-live-label" class="form-check-label" for="monitoring-live">Monitoring</label>
+                        {{if .PreferenceMap["monitoring_live"] == "1"}}
+                            <input class="form-check-input" type="checkbox" checked id="monitoring-live">
+                            <label id="monitoring-live-label" class="form-check-label" for="monitoring-live">Monitoring</label>
+                        {{else}}
+                            <input class="form-check-input" type="checkbox" id="monitoring-live">
+                            <label id="monitoring-live-label" class="form-check-label" for="monitoring-live">Monitoring</label>
+                        {{end}}
                     </div>
                 </form>
             </div>
