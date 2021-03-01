@@ -146,6 +146,9 @@ func setupApp() (*string, error) {
 	))
 
 	app.Scheduler = scheduler
+	app.Scheduler.Start()
+
+	startMonitoring()
 
 	helpers.NewHelpers(&app)
 
