@@ -24,6 +24,16 @@
         successAlert(data.message);
     })
 
+    publicChannel.bind("host-service-count-changed", function(data) {
+        let healthyCountExists = !!document.getElementById("healthy_count");
+        if (healthyCountExists) {
+            document.getElementById("healthy_count").innerHTML = data.healthy_count;
+            document.getElementById("problem_count").innerHTML = data.problem_count;
+            document.getElementById("pending_count").innerHTML = data.pending_count;
+            document.getElementById("warning_count").innerHTML = data.warning_count;
+        }
+    })
+
     // things we want to look for
     //  - service goes down
     //  - service comes up
