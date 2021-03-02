@@ -423,11 +423,13 @@ func (repo *DBRepo) ToggleMonitoring(w http.ResponseWriter, r *http.Request) {
 	if enabled == "1" {
 		// start monitoring
 		log.Println("Turning monitoring on")
+		repo.App.PreferenceMap["monitoring_live"] = "1"
 		repo.StartMonitoring()
 		repo.App.Scheduler.Start()
 	} else {
 		// stop monitoring
 		log.Println("Turning monitoring off")
+		repo.App.PreferenceMap["monitoring_live"] = "0"
 
 		// remove all items in map from schedule
 		for _, x := range repo.App.MonitorMap {
@@ -445,6 +447,13 @@ func (repo *DBRepo) ToggleMonitoring(w http.ResponseWriter, r *http.Request) {
 		}
 
 		repo.App.Scheduler.Stop()
+
+		data := make(map[string]string)
+		data["message"] = "Monitoring is off!"
+		err := app.WsClient.Trigger("public-channel", "app-stopping", data)
+		if err != nil {
+			log.Println(err)
+		}
 
 	}
 
