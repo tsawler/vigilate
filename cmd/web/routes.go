@@ -62,6 +62,7 @@ func routes() http.Handler {
 
 		// preferences
 		mux.Post("/preference/ajax/set-system-pref", handlers.Repo.SetSystemPref)
+		mux.Post("/preference/ajax/toggle-monitoring", handlers.Repo.ToggleMonitoring)
 
 		// hosts
 		mux.Get("/host/all", handlers.Repo.AllHosts)
