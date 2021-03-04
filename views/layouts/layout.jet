@@ -150,7 +150,7 @@
                     </div>
                     <div class="col-6 text-right">
                         <p class="mb-0">
-                            <a href="index.html" class="text-muted"><strong><span class="fa fa-eye"></span> Vigilate</strong></a>
+                            <a href="/" class="text-muted"><strong><span class="fa fa-eye"></span> Vigilate</strong></a>
                         </p>
                     </div>
                 </div>
