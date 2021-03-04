@@ -36,7 +36,27 @@
                 </tr>
                 </thead>
                 <tbody id="schedule-table-body">
-
+                    {{range items}}
+                    <tr class="schedule-row" id="schedule-{{.ID}}">
+                        <td>{{.Host}}</td>
+                        <td>{{.Service}}</td>
+                        <td>{{.ScheduleText}}</td>
+                        <td>
+                            {{if dateAfterYearOne(.LastRunFromHS)}}
+                                {{dateFromLayout(.LastRunFromHS, "2006-01-02 3:04:05 PM")}}
+                            {{else}}
+                                Pending...
+                            {{end}}
+                        </td>
+                        <td>
+                            {{if dateAfterYearOne(.Entry.Next) }}
+                                {{dateFromLayout(.Entry.Next, "2006-01-02 3:04:05 PM")}}
+                            {{else}}
+                                Pending...
+                            {{end}}
+                        </td>
+                    </tr>
+                    {{end}}
                 </tbody>
             </table>
         </div>

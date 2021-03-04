@@ -2,6 +2,7 @@ package models
 
 import (
 	"errors"
+	"github.com/robfig/cron/v3"
 	"time"
 )
 
@@ -80,4 +81,16 @@ type HostService struct {
 	UpdatedAt      time.Time
 	Service        Services
 	HostName       string
+}
+
+// Schedule model
+type Schedule struct {
+	ID            int
+	EntryID       cron.EntryID
+	Entry         cron.Entry
+	Host          string
+	Service       string
+	LastRunFromHS time.Time
+	HostServiceID int
+	ScheduleText  string
 }
