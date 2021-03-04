@@ -31,7 +31,7 @@
         // delete from if it exists
         deleteHostServiceRow(data.host_service_id);
 
-        // add rew if table exists
+        // add new if table exists
         updateHostServiceTable(data);
     })
 
