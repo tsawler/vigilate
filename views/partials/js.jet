@@ -21,7 +21,50 @@
     })
 
     publicChannel.bind("host-service-status-changed", function(data) {
-        successAlert(data.message);
+        attention.toast({
+            msg: data.message,
+            icon: 'info',
+            timer: 30000,
+            showCloseButton: true,
+        })
+
+        // update tables
+
+        // remove existing table row if it exists
+        let exists = !!document.getElementById("host-service-" + data.host_service_id)
+        if (exists) {
+            let row = document.getElementById("host-service-" + data.host_service_id);
+            row.parentNode.removeChild(row);
+        }
+
+        // update tables, if they exist
+        let tableExists = !!document.getElementById(data.status + "-table");
+        if (tableExists) {
+            console.log("Trying to add row to " + data.status + " table");
+            let tableRef = document.getElementById(data.status + "-table");
+            let newRow = tableRef.tBodies[0].insertRow(-1);
+
+            newRow.setAttribute("id", "host-service-" + data.host_service_id);
+
+            // insert the first td
+            let newCell = newRow.insertCell(0);
+            newCell.innerHTML = `<span class="${data.icon}"></span> ${data.service_name}
+                <span class="badge bg-secondary pointer" onclick="checkNow(${data.host_service_id}, '${data.status}')">
+                    Check Now
+                </span>`;
+
+            // insert second td
+            newCell = newRow.insertCell(1);
+            if (data.status !== "pending") {
+                newCell.innerHTML = `${data.last_check}`;
+            } else {
+                newCell.innerHTML = "Pending...";
+            }
+
+            // insert 3rd td
+            newCell = newRow.insertCell(2);
+        }
+
     })
 
     publicChannel.bind("host-service-count-changed", function(data) {
