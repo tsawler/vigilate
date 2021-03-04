@@ -45,13 +45,21 @@
 
             // if this was the last row, add a "no services" row
             // we don't know what table might exist, so check them all
+
+            // first, set up an array with the appropriate status names
             let tables = ["healthy", "pending", "warning", "problem"];
+
             for (let i = 0; i < tables.length; i++) {
+                // check to see if the table exists
                 let currentTableExists = !!document.getElementById(tables[i] + "-table");
                 if (currentTableExists) {
+                    // the table exists, so get a reference to it
                     let currentTable = document.getElementById(tables[i] + "-table");
+
+                    // if the number of rows in the table is one, the only row left is the header,
+                    // so we need to insert a  "No services" row in the table body
                     if (currentTable.rows.length === 1) {
-                        // the only table row left is the header, so add in a "no tables" row with colspan 3
+                        // add in a "No services" row with colspan 3
                         let newRow = currentTable.tBodies[0].insertRow(-1);
                         let newCell = newRow.insertCell(0);
                         newCell.setAttribute("colspan", "3");
