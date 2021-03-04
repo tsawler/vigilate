@@ -18,6 +18,72 @@
 
     publicChannel.bind("app-stopping", function (data) {
         warningAlert(data.message);
+
+        // remove all entries from the schedule page
+        let scheduleTableExists = !!document.getElementById("schedule-table");
+        if (scheduleTableExists) {
+            let scheduleTable = document.getElementById("schedule-table");
+            // remove all rows
+            scheduleTable.tBodies[0].innerHTML = "";
+
+            // add in a "No scheduled checks!" row with colspan 3
+            let newRow = scheduleTable.tBodies[0].insertRow(-1);
+            let newCell = newRow.insertCell(0);
+            newCell.setAttribute("colspan", "5");
+            newCell.innerHTML = "No scheduled checks!";
+        }
+    })
+
+    publicChannel.bind("schedule-changed-event", function(data) {
+        let scheduleTable = !!document.getElementById("schedule-table");
+        if (scheduleTable) {
+            // get a reference to the table
+            let tableRef = document.getElementById("schedule-table");
+
+            // check to see if we have to delete the "No scheduled checks" row
+            let tableContent = tableRef.innerHTML;
+            if (tableContent.includes("No scheduled checks")) {
+                // we have a "no scheduled checs" row, so delete it
+                let rowCount = tableRef.rows.length;
+                for (let i = rowCount - 1; i > 0; i--) {
+                    tableRef.deleteRow(i);
+                }
+            }
+
+            // delete existing row
+            let rowExists = !!document.getElementById("schedule-" + data.host_service_id);
+            if (rowExists) {
+                let row = document.getElementById("schedule-" + data.host_service_id);
+                row.parentNode.removeChild(row);
+            }
+            let newRow = tableRef.tBodies[0].insertRow(-1);
+            newRow.setAttribute("id", "schedule-" + data.host_service_id);
+
+            let newCell = newRow.insertCell(0);
+            let newText = document.createTextNode(data.host);
+            newCell.appendChild(newText);
+
+            newCell = newRow.insertCell(1)
+            newText = document.createTextNode(data.service);
+            newCell.appendChild(newText);
+
+            newCell = newRow.insertCell(2)
+            newText = document.createTextNode(data.schedule);
+            newCell.appendChild(newText);
+
+            newCell = newRow.insertCell(3)
+            newText = document.createTextNode(data.last_run);
+            newCell.appendChild(newText);
+
+            newCell = newRow.insertCell(4)
+            if (data.next_run === undefined) {
+                newText = document.createTextNode("Pending...");
+            } else {
+                newText = document.createTextNode(data.next_run);
+            }
+
+            newCell.appendChild(newText);
+        }
     })
 
     publicChannel.bind("host-service-status-changed", function(data) {
