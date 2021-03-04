@@ -21,6 +21,7 @@
     })
 
     publicChannel.bind("host-service-status-changed", function(data) {
+        // alert user to status change with toast
         attention.toast({
             msg: data.message,
             icon: 'info',
