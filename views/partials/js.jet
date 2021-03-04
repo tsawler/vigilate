@@ -31,7 +31,7 @@
         // update tables
 
         // remove existing table row if it exists
-        let exists = !!document.getElementById("host-service-" + data.host_service_id)
+        let exists = !!document.getElementById("host-service-" + data.host_service_id);
         if (exists) {
             let row = document.getElementById("host-service-" + data.host_service_id);
             row.parentNode.removeChild(row);
