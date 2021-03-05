@@ -13,11 +13,15 @@
     let publicChannel = pusher.subscribe("public-channel");
 
     publicChannel.bind("app-starting", function (data) {
+        let toggle = document.getElementById("monitoring-live");
+        toggle.checked = true;
         successAlert(data.message);
     })
 
     publicChannel.bind("app-stopping", function (data) {
         warningAlert(data.message);
+        let toggle = document.getElementById("monitoring-live");
+        toggle.checked = false;
 
         // remove all entries from the schedule page
         let scheduleTableExists = !!document.getElementById("schedule-table");
@@ -31,6 +35,28 @@
             let newCell = newRow.insertCell(0);
             newCell.setAttribute("colspan", "5");
             newCell.innerHTML = "No scheduled checks!";
+        }
+    })
+
+    publicChannel.bind("schedule-item-removed-event", function(data){
+        let rowExists = !!document.getElementById("schedule-" + data.host_service_id);
+        if (rowExists) {
+            let row = document.getElementById("schedule-" + data.host_service_id);
+            row.parentNode.removeChild(row);
+
+            // check to see if we have to add a "No scheduled checks" row
+            // the table exists, so get a reference to it
+            let currentTable = document.getElementById("schedule-table");
+
+            // if the number of rows in the table is one, the only row left is the header,
+            // so we need to insert a  "No services" row in the table body
+            if (currentTable.rows.length === 1) {
+                // add in a "No services" row with colspan 3
+                let newRow = currentTable.tBodies[0].insertRow(-1);
+                let newCell = newRow.insertCell(0);
+                newCell.setAttribute("colspan", "5");
+                newCell.innerHTML = "No scheduled checks";
+            }
         }
     })
 
