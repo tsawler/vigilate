@@ -1,0 +1,16 @@
+create_table("events") {
+    t.Column("id", "integer", {primary: true})
+    t.Column("event_type", "string", {})
+    t.Column("host_service_id", "integer", {})
+    t.Column("host_id", "integer", {})
+    t.Column("service_name", "string", {"size":255})
+    t.Column("host_name", "string", {"size":255})
+    t.Column("message", "string", {"size":512})
+}
+
+sql(`
+    CREATE TRIGGER set_timestamp
+        BEFORE UPDATE on events
+        FOR EACH ROW
+    EXECUTE PROCEDURE trigger_set_timestamp();
+`)

@@ -70,7 +70,16 @@ func (repo *DBRepo) AdminDashboard(w http.ResponseWriter, r *http.Request) {
 
 // Events displays the events page
 func (repo *DBRepo) Events(w http.ResponseWriter, r *http.Request) {
-	err := helpers.RenderPage(w, r, "events", nil, nil)
+	events, err := repo.DB.GetAllEvents()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	data := make(jet.VarMap)
+	data.Set("events", events)
+
+	err = helpers.RenderPage(w, r, "events", data, nil)
 	if err != nil {
 		printTemplateError(w, err)
 	}
