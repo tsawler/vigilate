@@ -77,6 +77,7 @@ type HostService struct {
 	ScheduleUnit   string
 	Status         string
 	LastCheck      time.Time
+	LastMessage    string
 	CreatedAt      time.Time
 	UpdatedAt      time.Time
 	Service        Services

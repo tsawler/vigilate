@@ -43,7 +43,9 @@
                         </a>
                     </td>
                     <td>{{.Service.ServiceName}}</td>
-                    <td></td>
+                    <td>
+                        {{.LastMessage}}
+                    </td>
                 </tr>
                 {{end}}
             {{else}}
