@@ -213,11 +213,11 @@ func (repo *DBRepo) testServiceForHost(h models.Host, hs models.HostService) (st
 				if newStatus == "healthy" {
 					mm.Subject = fmt.Sprintf("HEALTHY: service %s on %s", hs.Service.ServiceName, hs.HostName)
 					mm.Content = template.HTML(fmt.Sprintf(`<p>Service %s on %s reported healthy status</p>
-						<p><strong>Message received: %s</p>`, hs.Service.ServiceName, hs.HostName, msg))
+						<p><strong>Message received: %s</strong>/p>`, hs.Service.ServiceName, hs.HostName, msg))
 				} else if newStatus == "problem" {
 					mm.Subject = fmt.Sprintf("PROBLEM: service %s on %s", hs.Service.ServiceName, hs.HostName)
 					mm.Content = template.HTML(fmt.Sprintf(`<p>Service %s on %s reported problem</p>
-						<p><strong>Message received: %s</p>`, hs.Service.ServiceName, hs.HostName, msg))
+						<p><strong>Message received: %s</strong></p>`, hs.Service.ServiceName, hs.HostName, msg))
 				} else if newStatus == "warning" {
 
 				}
