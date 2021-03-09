@@ -36,13 +36,31 @@ func (m *postgresDBRepo) InsertHost(h models.Host) (int, error) {
 	}
 
 	// add host services and set to inactive
-	stmt := `
-		insert into host_services (host_id, service_id, active, schedule_number, schedule_unit,
-		status, created_at, updated_at) values ($1, 1, 0, 3, 'm', 'pending', $2, $3)`
-
-	_, err = m.DB.ExecContext(ctx, stmt, newID, time.Now(), time.Now())
+	query = `select id from services`
+	serviceRows, err := m.DB.QueryContext(ctx, query)
 	if err != nil {
-		return newID, err
+		log.Println(err)
+		return 0, err
+	}
+	defer serviceRows.Close()
+
+	for serviceRows.Next() {
+		var svcID int
+		err := serviceRows.Scan(&svcID)
+		if err != nil {
+			log.Println(err)
+			return 0, err
+		}
+
+		stmt := `
+			insert into host_services 
+		    	(host_id, service_id, active, schedule_number, schedule_unit,
+				status, created_at, updated_at) values ($1, $2, 0, 3, 'm', 'pending', $3, $4)`
+
+		_, err = m.DB.ExecContext(ctx, stmt, newID, svcID, time.Now(), time.Now())
+		if err != nil {
+			return newID, err
+		}
 	}
 
 	return newID, nil
@@ -91,7 +109,8 @@ func (m *postgresDBRepo) GetHostByID(id int) (models.Host, error) {
 				host_services hs
 				left join services s on (s.id = hs.service_id)
 			where
-				host_id = $1`
+				host_id = $1
+			order by s.service_name`
 
 	rows, err := m.DB.QueryContext(ctx, query, h.ID)
 	if err != nil {
