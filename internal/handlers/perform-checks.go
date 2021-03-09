@@ -181,12 +181,16 @@ func (repo *DBRepo) testServiceForHost(h models.Host, hs models.HostService) (st
 	case HTTP:
 		msg, newStatus = testHTTPForHost(h.URL)
 		break
+
+	case HTTPS:
+		msg, newStatus = testHTTPSForHost(h.URL)
+		break
 	}
 
 	// broadcast to clients if appropriate
 	if hs.Status != newStatus {
 		repo.pushStatusChangedEvent(h, hs, newStatus)
-		log.Println("Updating host services to last message", msg)
+
 		// save event
 		event := models.Event{
 			EventType:     newStatus,
@@ -224,7 +228,6 @@ func (repo *DBRepo) testServiceForHost(h models.Host, hs models.HostService) (st
 				}
 
 				helpers.SendEmail(mm)
-
 			}
 		}
 
@@ -308,6 +311,30 @@ func testHTTPForHost(url string) (string, string) {
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
+		return fmt.Sprintf("%s - %s", url, resp.Status), "problem"
+	}
+
+	return fmt.Sprintf("%s - %s", url, resp.Status), "healthy"
+}
+
+// testHTTPSForHost tests HTTPS service
+func testHTTPSForHost(url string) (string, string) {
+	log.Println("Testing HTTPS")
+	if strings.HasSuffix(url, "/") {
+		url = strings.TrimSuffix(url, "/")
+	}
+
+	url = strings.Replace(url, "http://", "https://", -1)
+
+	resp, err := http.Get(url)
+	if err != nil {
+		log.Println("HTTPS error 1")
+		return fmt.Sprintf("%s - %s", url, "error connecting"), "problem"
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		log.Println("HTTPS error 2", resp.StatusCode)
 		return fmt.Sprintf("%s - %s", url, resp.Status), "problem"
 	}
 
