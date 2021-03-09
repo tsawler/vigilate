@@ -4,7 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-chi/chi/v5"
+	"github.com/tsawler/vigilate/internal/channeldata"
+	"github.com/tsawler/vigilate/internal/helpers"
 	"github.com/tsawler/vigilate/internal/models"
+	"html/template"
 	"log"
 	"net/http"
 	"strconv"
@@ -198,11 +201,36 @@ func (repo *DBRepo) testServiceForHost(h models.Host, hs models.HostService) (st
 		if err != nil {
 			log.Println(err)
 		}
+
+		// send email if appropriate
+		if repo.App.PreferenceMap["notify_via_email"] == "1" {
+			if hs.Status != "pending" {
+				mm := channeldata.MailData{
+					ToName:    repo.App.PreferenceMap["notify_name"],
+					ToAddress: repo.App.PreferenceMap["notify_email"],
+				}
+
+				if newStatus == "healthy" {
+					mm.Subject = fmt.Sprintf("HEALTHY: service %s on %s", hs.Service.ServiceName, hs.HostName)
+					mm.Content = template.HTML(fmt.Sprintf(`<p>Service %s on %s reported healthy status</p>
+						<p><strong>Message received: %s</p>`, hs.Service.ServiceName, hs.HostName, msg))
+				} else if newStatus == "problem" {
+					mm.Subject = fmt.Sprintf("PROBLEM: service %s on %s", hs.Service.ServiceName, hs.HostName)
+					mm.Content = template.HTML(fmt.Sprintf(`<p>Service %s on %s reported problem</p>
+						<p><strong>Message received: %s</p>`, hs.Service.ServiceName, hs.HostName, msg))
+				} else if newStatus == "warning" {
+
+				}
+
+				helpers.SendEmail(mm)
+
+			}
+		}
+
+		// TODO send sms if appropriate
 	}
 
 	repo.pushScheduleChangedEvent(hs, newStatus)
-
-	// TODO - send email/sms if appropriate
 
 	return newStatus, msg
 }

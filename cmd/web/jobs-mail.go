@@ -99,17 +99,6 @@ func (d *Dispatcher) dispatch() {
 // processMailQueueJob processes the main queue job (sends email)
 func (w Worker) processMailQueueJob(mailMessage channeldata.MailData) {
 
-	tmpl := "bootstrap.mail.tmpl"
-	if mailMessage.Template != "" {
-		tmpl = mailMessage.Template
-	}
-
-	t, ok := app.TemplateCache[tmpl]
-	if !ok {
-		fmt.Println("Could not get mail template", mailMessage.Template)
-		return
-	}
-
 	data := struct {
 		Content       template.HTML
 		From          string
@@ -129,6 +118,12 @@ func (w Worker) processMailQueueJob(mailMessage channeldata.MailData) {
 		FloatMap:      mailMessage.FloatMap,
 		RowSets:       mailMessage.RowSets,
 	}
+
+	paths := []string{
+		"./views/mail.tmpl",
+	}
+
+	t := template.Must(template.New("mail.tmpl").ParseFiles(paths...))
 
 	var tpl bytes.Buffer
 	if err := t.Execute(&tpl, data); err != nil {
