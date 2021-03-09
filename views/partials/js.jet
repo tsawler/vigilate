@@ -11,6 +11,14 @@
     });
 
     let publicChannel = pusher.subscribe("public-channel");
+    let privateChannel = pusher.subscribe("private-channel-{{.User.ID}}")
+
+    privateChannel.bind("private-message", function(data) {
+        attention.alert({
+            html: data.message,
+            icon: 'success',
+        })
+    })
 
     publicChannel.bind("app-starting", function (data) {
         let toggle = document.getElementById("monitoring-live");
