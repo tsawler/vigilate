@@ -104,7 +104,7 @@ func (m *postgresDBRepo) GetHostByID(id int) (models.Host, error) {
 			select 
 				hs.id, hs.host_id, hs.service_id, hs.active, hs.schedule_number, hs.schedule_unit, 
 				hs.last_check, hs.status, hs.created_at, hs.updated_at,
-				s.id, s.service_name, s.active, s.icon, s.created_at, s.updated_at
+				s.id, s.service_name, s.active, s.icon, s.created_at, s.updated_at, hs.last_message
 			from 
 				host_services hs
 				left join services s on (s.id = hs.service_id)
@@ -139,6 +139,7 @@ func (m *postgresDBRepo) GetHostByID(id int) (models.Host, error) {
 			&hs.Service.Icon,
 			&hs.Service.CreatedAt,
 			&hs.Service.UpdatedAt,
+			&hs.LastMessage,
 		)
 		if err != nil {
 			log.Println(err)
