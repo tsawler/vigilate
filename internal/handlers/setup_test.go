@@ -69,6 +69,8 @@ func TestMain(m *testing.M) {
 
 	helpers.NewHelpers(app)
 
+	helpers.SetViews("./../../views")
+
 	os.Exit(m.Run())
 }
 
