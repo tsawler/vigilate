@@ -1,8 +1,6 @@
 package handlers
 
 import (
-	"context"
-	"log"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -53,13 +51,4 @@ func TestDBRepo_Login(t *testing.T) {
 	if rr.Code != http.StatusSeeOther {
 		t.Errorf("failed post login screen: expected 303, but got %d", rr.Code)
 	}
-}
-
-// gets the context with session added
-func getCtx(req *http.Request) context.Context {
-	ctx, err := testSession.Load(req.Context(), req.Header.Get("X-Session"))
-	if err != nil {
-		log.Println(err)
-	}
-	return ctx
 }

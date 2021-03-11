@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"github.com/alexedwards/scs/v2"
 	"github.com/pusher/pusher-http-go"
 	"github.com/robfig/cron/v3"
@@ -9,6 +10,7 @@ import (
 	"github.com/tsawler/vigilate/internal/driver"
 	"github.com/tsawler/vigilate/internal/helpers"
 	"github.com/tsawler/vigilate/internal/repository/dbrepo"
+	"log"
 	"net/http"
 	"os"
 	"testing"
@@ -72,6 +74,15 @@ func TestMain(m *testing.M) {
 	helpers.SetViews("./../../views")
 
 	os.Exit(m.Run())
+}
+
+// gets the context with session added
+func getCtx(req *http.Request) context.Context {
+	ctx, err := testSession.Load(req.Context(), req.Header.Get("X-Session"))
+	if err != nil {
+		log.Println(err)
+	}
+	return ctx
 }
 
 // NewTestHandlers creates a new repository
