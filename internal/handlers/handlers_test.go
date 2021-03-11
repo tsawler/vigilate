@@ -102,6 +102,8 @@ func TestDBRepo_PusherAuth(t *testing.T) {
 	// cast the handler to a handlerfunc and call serve http
 	handler := http.HandlerFunc(Repo.PusherAuth)
 	handler.ServeHTTP(rr, req)
+
+	// check status code
 	if rr.Code != http.StatusOK {
 		t.Errorf("Expected response 200, but got %d", rr.Code)
 	}
