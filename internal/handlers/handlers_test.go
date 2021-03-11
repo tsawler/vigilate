@@ -53,7 +53,7 @@ func TestLoginScreen(t *testing.T) {
 			handler.ServeHTTP(rr, req)
 
 			// check returned status code against expected status code
-			if rr.Code != http.StatusOK {
+			if rr.Code != e.expectedResponseCode {
 				t.Errorf("expected %d, but got %d", e.expectedResponseCode, rr.Code)
 			}
 		} else {
@@ -72,7 +72,7 @@ func TestLoginScreen(t *testing.T) {
 			handler.ServeHTTP(rr, req)
 
 			// test returned status code
-			if rr.Code != http.StatusSeeOther {
+			if rr.Code != e.expectedResponseCode {
 				t.Errorf("expected %d, but got %d", e.expectedResponseCode, rr.Code)
 			}
 		}
