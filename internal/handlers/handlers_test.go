@@ -80,6 +80,8 @@ func TestLoginScreen(t *testing.T) {
 }
 
 func TestDBRepo_PusherAuth(t *testing.T) {
+	// IPE, or whatever pusher service you are using, must be running for this test to pass!
+
 	// create the json that would be posted to server, and which calls ipe
 	j := `
 		{
