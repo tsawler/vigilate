@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func TestDBRepo_Login(t *testing.T) {
+func TestDBRepo_LoginScreen(t *testing.T) {
 	req, _ := http.NewRequest("GET", "/", nil)
 	ctx := getCtx(req)
 	req = req.WithContext(ctx)
