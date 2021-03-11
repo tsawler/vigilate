@@ -35,19 +35,27 @@ func TestDBRepo_LoginScreen(t *testing.T) {
 
 // TestDBRepo_Login tests logging in
 func TestDBRepo_Login(t *testing.T) {
+	// put create url.Values with posted data
 	postedData := url.Values{
 		"email":    {"admin@example.com"},
 		"password": {"password"},
 	}
 
+	// create a request with body to post
 	req, _ := http.NewRequest("POST", "/", strings.NewReader(postedData.Encode()))
+
+	// get our context with the session
 	ctx := getCtx(req)
 	req = req.WithContext(ctx)
+
+	// create a recorder
 	rr := httptest.NewRecorder()
 
+	// cast the handler to a handlerfunc and call serve http
 	handler := http.HandlerFunc(Repo.Login)
 	handler.ServeHTTP(rr, req)
 
+	// test returned status code
 	if rr.Code != http.StatusSeeOther {
 		t.Errorf("failed post login screen: expected 303, but got %d", rr.Code)
 	}
