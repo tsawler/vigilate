@@ -11,6 +11,7 @@ require (
 	github.com/aymerick/douceur v0.2.0
 	github.com/go-chi/chi/v5 v5.0.0
 	github.com/gorilla/css v1.0.0 // indirect
+	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/jackc/pgconn v1.8.0
 	github.com/jackc/pgproto3/v2 v2.0.7 // indirect
 	github.com/jackc/pgx/v4 v4.10.1

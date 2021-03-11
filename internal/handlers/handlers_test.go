@@ -18,7 +18,7 @@ var loginTests = []struct {
 	{
 		name:                 "login-screen",
 		url:                  "/",
-		method:               "POST",
+		method:               "GET",
 		expectedResponseCode: http.StatusOK,
 	},
 	{
@@ -54,7 +54,7 @@ func TestLoginScreen(t *testing.T) {
 
 			// check returned status code against expected status code
 			if rr.Code != e.expectedResponseCode {
-				t.Errorf("expected %d, but got %d", e.expectedResponseCode, rr.Code)
+				t.Errorf("%s, expected %d, but got %d", e.name, e.expectedResponseCode, rr.Code)
 			}
 		} else {
 			// create a request with body to post
@@ -73,8 +73,34 @@ func TestLoginScreen(t *testing.T) {
 
 			// test returned status code
 			if rr.Code != e.expectedResponseCode {
-				t.Errorf("expected %d, but got %d", e.expectedResponseCode, rr.Code)
+				t.Errorf("%s, expected %d, but got %d", e.name, e.expectedResponseCode, rr.Code)
 			}
 		}
+	}
+}
+
+func TestDBRepo_PusherAuth(t *testing.T) {
+	// create the json that would be posted to server, and which calls ipe
+	j := `
+		{
+			"auth":"abc123:13483c6b0d01d94b9800ddfb7648e9e81cab4aa5c0a929d09cf75a112348aece",
+			"channel_data":"{\"user_id\":\"1\",\"user_info\":{\"id\":\"1\",\"name\":\"Admin\"}}"
+		}`
+
+	// create the request
+	req, _ := http.NewRequest("POST", "/pusher/auth", strings.NewReader(j))
+
+	// get our context with the session
+	ctx := getCtx(req)
+	req = req.WithContext(ctx)
+
+	// create a recorder
+	rr := httptest.NewRecorder()
+
+	// cast the handler to a handlerfunc and call serve http
+	handler := http.HandlerFunc(Repo.PusherAuth)
+	handler.ServeHTTP(rr, req)
+	if rr.Code != http.StatusOK {
+		t.Errorf("Expected response 200, but got %d", rr.Code)
 	}
 }
