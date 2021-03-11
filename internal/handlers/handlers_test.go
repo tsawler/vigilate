@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -84,19 +85,13 @@ func TestLoginScreen(t *testing.T) {
 func TestDBRepo_PusherAuth(t *testing.T) {
 	// IMPORTANT!!!
 	// ipe, or whatever pusher service you are using, must be running for this test to pass!
-
-	// Even when this test passes, it will throw a warning "Channel param not found," which you can
-	// ignore. We are not specifically subscribing to a channel in this test. We're just authenticating.
-
-	// create the json that would be posted to server, and which calls ipe
-	j := `
-		{
-			"auth":"abc123:13483c6b0d01d94b9800ddfb7648e9e81cab4aa5c0a929d09cf75a112348aece",
-			"channel_data":"{\"user_id\":\"1\",\"user_info\":{\"id\":\"1\",\"name\":\"Admin\"}}"
-		}`
+	postedData := url.Values{
+		"socket_id":    {"471281528.421564659"},
+		"channel_name": {"private-channel-1"},
+	}
 
 	// create the request
-	req, _ := http.NewRequest("POST", "/pusher/auth", strings.NewReader(j))
+	req, _ := http.NewRequest("POST", "/pusher/auth", strings.NewReader(postedData.Encode()))
 
 	// get our context with the session
 	ctx := getCtx(req)
@@ -112,5 +107,20 @@ func TestDBRepo_PusherAuth(t *testing.T) {
 	// check status code
 	if rr.Code != http.StatusOK {
 		t.Errorf("Expected response 200, but got %d", rr.Code)
+	}
+
+	type pusherResp struct {
+		Auth string `json:"auth"`
+	}
+
+	var p pusherResp
+
+	err := json.NewDecoder(rr.Body).Decode(&p)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(p.Auth) == 0 {
+		t.Error("empty json response")
 	}
 }
