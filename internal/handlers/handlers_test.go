@@ -80,37 +80,3 @@ func TestLoginScreen(t *testing.T) {
 		}
 	}
 }
-
-func TestDBRepo_PusherAuth(t *testing.T) {
-	// IMPORTANT!!!
-	// ipe, or whatever pusher service you are using, must be running for this test to pass!
-
-	// Even when this test passes, it will throw a warning "Channel param not found," which you can
-	// ignore. We are not specifically subscribing to a channel in this test. We're just authenticating.
-
-	// create the json that would be posted to server, and which calls ipe
-	j := `
-		{
-			"auth":"abc123:13483c6b0d01d94b9800ddfb7648e9e81cab4aa5c0a929d09cf75a112348aece",
-			"channel_data":"{\"user_id\":\"1\",\"user_info\":{\"id\":\"1\",\"name\":\"Admin\"}}"
-		}`
-
-	// create the request
-	req, _ := http.NewRequest("POST", "/pusher/auth", strings.NewReader(j))
-
-	// get our context with the session
-	ctx := getCtx(req)
-	req = req.WithContext(ctx)
-
-	// create a recorder
-	rr := httptest.NewRecorder()
-
-	// cast the handler to a handlerfunc and call serve http
-	handler := http.HandlerFunc(Repo.PusherAuth)
-	handler.ServeHTTP(rr, req)
-
-	// check status code
-	if rr.Code != http.StatusOK {
-		t.Errorf("Expected response 200, but got %d", rr.Code)
-	}
-}
