@@ -15,29 +15,26 @@ import (
 	"time"
 )
 
-var session *scs.SessionManager
+var testSession *scs.SessionManager
 
 func TestMain(m *testing.M) {
-	// session
-	session = scs.New()
-	session.Lifetime = 24 * time.Hour
-	session.Cookie.Persist = true
-	session.Cookie.SameSite = http.SameSiteLaxMode
-	session.Cookie.Secure = false
+
+	testSession = scs.New()
+	testSession.Lifetime = 24 * time.Hour
+	testSession.Cookie.Persist = true
+	testSession.Cookie.SameSite = http.SameSiteLaxMode
+	testSession.Cookie.Secure = false
 
 	mailQueue := make(chan channeldata.MailJob, 5)
 
 	// define application configuration
 	a := config.AppConfig{
 		DB:           &driver.DB{},
-		Session:      session,
+		Session:      testSession,
 		InProduction: false,
 		Domain:       "localhost",
 		MailQueue:    mailQueue,
 	}
-
-	repo := NewTestHandlers(app)
-	NewHandlers(repo, app)
 
 	app = &a
 
@@ -66,6 +63,9 @@ func TestMain(m *testing.M) {
 	))
 
 	app.Scheduler = scheduler
+
+	repo := NewTestHandlers(app)
+	NewHandlers(repo, app)
 
 	helpers.NewHelpers(app)
 
