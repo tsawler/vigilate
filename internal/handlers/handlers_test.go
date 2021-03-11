@@ -48,6 +48,7 @@ func TestLoginScreen(t *testing.T) {
 
 			// cast handler we want to test to an http.HandlerFunc
 			handler := http.HandlerFunc(Repo.LoginScreen)
+
 			// call the handler with our response recorder (which satisfies the response writer interface),
 			// and our request (which has our test session)
 			handler.ServeHTTP(rr, req)
@@ -67,7 +68,7 @@ func TestLoginScreen(t *testing.T) {
 			// create a recorder
 			rr := httptest.NewRecorder()
 
-			// cast the handler to a handlerfunc and call serve http
+			// cast the handler to a handlerfunc and call the ServeHTTP method on it
 			handler := http.HandlerFunc(Repo.Login)
 			handler.ServeHTTP(rr, req)
 
