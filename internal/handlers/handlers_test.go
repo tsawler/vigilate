@@ -50,7 +50,7 @@ func TestLoginScreen(t *testing.T) {
 			handler := http.HandlerFunc(Repo.LoginScreen)
 
 			// call the handler with our response recorder (which satisfies the response writer interface),
-			// and our request (which has our test session)
+			// and our request (which has our test session). This executes the method we want to test.
 			handler.ServeHTTP(rr, req)
 
 			// check returned status code against expected status code
@@ -68,7 +68,8 @@ func TestLoginScreen(t *testing.T) {
 			// create a recorder
 			rr := httptest.NewRecorder()
 
-			// cast the handler to a handlerfunc and call the ServeHTTP method on it
+			// cast the handler to a HandlerFunc and call the ServeHTTP method on it.
+			// This executes the method we want to test.
 			handler := http.HandlerFunc(Repo.Login)
 			handler.ServeHTTP(rr, req)
 
@@ -81,7 +82,8 @@ func TestLoginScreen(t *testing.T) {
 }
 
 func TestDBRepo_PusherAuth(t *testing.T) {
-	// IPE, or whatever pusher service you are using, must be running for this test to pass!
+	// IMPORTANT!!!
+	// ipe, or whatever pusher service you are using, must be running for this test to pass!
 
 	// create the json that would be posted to server, and which calls ipe
 	j := `
