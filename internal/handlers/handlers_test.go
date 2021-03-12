@@ -83,8 +83,8 @@ func TestLoginScreen(t *testing.T) {
 }
 
 func TestDBRepo_PusherAuth(t *testing.T) {
-	// IMPORTANT!!!
-	// ipe, or whatever pusher service you are using, must be running for this test to pass!
+	// Now that we have a wrapper for our websocket client, pusher (or ipe)
+	// does not have to be running. This is much better.
 	postedData := url.Values{
 		"socket_id":    {"471281528.421564659"},
 		"channel_name": {"private-channel-1"},

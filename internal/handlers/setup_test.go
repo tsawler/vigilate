@@ -45,7 +45,7 @@ func TestMain(m *testing.M) {
 	app.PreferenceMap = preferenceMap
 
 	// create pusher client
-	wsClient := pusher.Client{
+	dws := dummyWs{
 		AppID:  "1",
 		Secret: "123abc",
 		Key:    "abc123",
@@ -53,7 +53,7 @@ func TestMain(m *testing.M) {
 		Host:   "localhost:4001",
 	}
 
-	app.WsClient = wsClient
+	app.WsClient = &dws
 
 	monitorMap := make(map[int]cron.EntryID)
 	app.MonitorMap = monitorMap
@@ -91,4 +91,69 @@ func NewTestHandlers(a *config.AppConfig) *DBRepo {
 		App: a,
 		DB:  dbrepo.NewTestingRepo(a),
 	}
+}
+
+// dummyWs is a type that satisfies the pusher.Client interface
+type dummyWs struct {
+	AppID                        string
+	Key                          string
+	Secret                       string
+	Host                         string // host or host:port pair
+	Secure                       bool   // true for HTTPS
+	Cluster                      string
+	HTTPClient                   *http.Client
+	EncryptionMasterKey          string  // deprecated
+	EncryptionMasterKeyBase64    string  // for E2E
+	validatedEncryptionMasterKey *[]byte // parsed key for use
+}
+
+func (c *dummyWs) Trigger(channel string, eventName string, data interface{}) error {
+	return nil
+}
+
+func (c *dummyWs) TriggerMulti(channels []string, eventName string, data interface{}) error {
+	return nil
+}
+
+func (c *dummyWs) TriggerExclusive(channel string, eventName string, data interface{}, socketID string) error {
+	return nil
+}
+
+func (c *dummyWs) TriggerMultiExclusive(channels []string, eventName string, data interface{}, socketID string) error {
+	return nil
+}
+
+func (c *dummyWs) TriggerBatch(batch []pusher.Event) error {
+	return nil
+}
+
+func (c *dummyWs) Channels(additionalQueries map[string]string) (*pusher.ChannelsList, error) {
+	var cl pusher.ChannelsList
+	return &cl, nil
+}
+
+func (c *dummyWs) Channel(name string, additionalQueries map[string]string) (*pusher.Channel, error) {
+	var cl pusher.Channel
+	return &cl, nil
+}
+
+func (c *dummyWs) GetChannelUsers(name string) (*pusher.Users, error) {
+	var cl pusher.Users
+	return &cl, nil
+}
+
+func (c *dummyWs) AuthenticatePrivateChannel(params []byte) (response []byte, err error) {
+	return []byte("Hello"), nil
+}
+
+func (c *dummyWs) AuthenticatePresenceChannel(params []byte, member pusher.MemberData) (response []byte, err error) {
+	jStr := `
+	{"auth":"abc123:b75c9f83f1a1dbe7d6933316348039c6270b27a416286385a0fed98529cf46d1","channel_data":"{\"user_id\":\"1\",\"user_info\":{\"id\":\"1\",\"name\":\"Admin\"}}"}
+`
+	return []byte(jStr), nil
+}
+
+func (c *dummyWs) Webhook(header http.Header, body []byte) (*pusher.Webhook, error) {
+	var wh pusher.Webhook
+	return &wh, nil
 }
