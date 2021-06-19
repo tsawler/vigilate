@@ -11,6 +11,7 @@ import (
 	"strings"
 )
 
+// SendTextTwilio sends a text using Twilio service
 func SendTextTwilio(to, msg string, app *config.AppConfig) error {
 	secret := app.PreferenceMap["twilio_auth_token"]
 	key := app.PreferenceMap["twilio_sid"]
