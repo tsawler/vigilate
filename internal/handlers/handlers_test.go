@@ -61,6 +61,8 @@ func TestLoginScreen(t *testing.T) {
 		} else {
 			// create a request with body to post
 			req, _ := http.NewRequest("POST", "/", strings.NewReader(e.postedData.Encode()))
+			// set the Content-Type header
+			req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 			// get our context with the session
 			ctx := getCtx(req)
